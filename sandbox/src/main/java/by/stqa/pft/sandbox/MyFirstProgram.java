@@ -7,7 +7,18 @@ public class MyFirstProgram {
       System.out.println("It's alive!!! Attempt: " + i);
     }
     System.out.println("Stopped!");
-    System.out.println(2+2);
+    double l = 10;
+    System.out.println("Square area is: " + area(l) + " Side len is: " + l);
+    double a = 3;
+    double b = 5;
+    System.out.println("Rect with a = " + a + " and b = " + b + " has area = " + area(a, b));
+
+  }
+  public static double area(double len){
+    return len * len;
+  }
+  public static double area(double a, double b){
+    return a * b;
   }
 
 }
