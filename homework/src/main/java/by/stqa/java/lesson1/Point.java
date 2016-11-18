@@ -1,4 +1,4 @@
-package by.stqa.pft.sandbox;
+package by.stqa.java.lesson1;
 
 /**
  * Created by artemr on 11/17/2016.
