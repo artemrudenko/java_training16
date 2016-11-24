@@ -8,10 +8,17 @@ import org.testng.annotations.Test;
  */
 public class PointTests {
   @Test
+  public void testDistanceIsDouble(){
+    Point pA = new Point(0, 0);
+    Point pB = new Point(0, 7);
+    Assert.assertNotEquals(pA.distance(pB), 7);
+  }
+
+  @Test
   public void testDistance(){
     Point pA = new Point(0, 0);
     Point pB = new Point(0, 7);
-    Assert.assertEquals(pA.distance(pB), 7);
+    Assert.assertEquals(pA.distance(pB), 7.);
   }
 
   @Test
