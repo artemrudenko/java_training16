@@ -35,7 +35,7 @@ public class HelperBase {
     wd.findElement(locator).click();
   }
 
-  public String[] getTitles(){
+  public String[] getTitles() {
     List<WebElement> elements = wd.findElements(By.name("selected[]"));
     String[] out = new String[elements.size()];
     int i = 0;
@@ -56,38 +56,34 @@ public class HelperBase {
   }
 
   public void closeAlert(boolean confirm) {
-    if(confirm){
+    if (confirm) {
       wd.switchTo().alert().accept();
-    }else {
+    } else {
       wd.switchTo().alert().dismiss();
     }
   }
 
-  public String[] getTableRowsText(By tableLocator){
+  public String[] getTableRowsText(By tableLocator) {
     WebElement table = wd.findElement(tableLocator);
     List<WebElement> rows = table.findElements(By.name("entry"));
     String[] out = new String[rows.size()];
-    int i = 0;
-    for(WebElement row: rows){
-      out[i] = row.getText();
+    for (int i = 0; i < rows.size(); i++) {
+      out[i] = rows.get(i).getText();
       ++i;
     }
     return out;
   }
 
-  public WebElement getTableRowByText(By tableLocator, String text){
+  public void clickTableElement(By tableLocator, String text, By elementLocator) {
     WebElement table = wd.findElement(tableLocator);
-    for(WebElement row: table.findElements(By.name("entry"))){
+    List<WebElement> rows = table.findElements(By.name("entry"));
+    for (int i = 0; i < rows.size(); i++) {
+      WebElement row = rows.get(i);
       // think on better condition here
-      if(row.getText().contains(text)){
-        return row;
+      if (row.getText().contains(text)) {
+        row.findElement(elementLocator).click();
+        break;
       }
     }
-    return table;
-  }
-
-  public void clickTableElement(By tableLocator, String text, By elementLocator){
-    WebElement row = getTableRowByText(tableLocator, text);
-    row.findElement(elementLocator).click();
   }
 }
