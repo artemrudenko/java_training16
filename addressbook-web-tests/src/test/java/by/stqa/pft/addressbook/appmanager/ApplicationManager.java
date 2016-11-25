@@ -4,8 +4,6 @@
 
 package by.stqa.pft.addressbook.appmanager;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.firefox.FirefoxBinary;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxProfile;
@@ -19,17 +17,7 @@ public class ApplicationManager {
   private ContactHelper contactHelper;
   private NavigationHelper navigationHelper;
   private GroupHelper groupHelper;
-  private CommonHelper commonHelper;
   private SessionHelper sessionHelper;
-
-  public static boolean isAlertPresent(FirefoxDriver wd) {
-    try {
-      wd.switchTo().alert();
-      return true;
-    } catch (NoAlertPresentException e) {
-      return false;
-    }
-  }
 
   public void init() {
     DesiredCapabilities caps = new DesiredCapabilities();
@@ -37,11 +25,10 @@ public class ApplicationManager {
     wd = new FirefoxDriver(bin, new FirefoxProfile(), caps);
     wd.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
     wd.get("http://localhost/addressbook/");
-    commonHelper = new CommonHelper(wd);
-    groupHelper = new GroupHelper(wd, commonHelper);
-    contactHelper = new ContactHelper(wd, commonHelper);
+    groupHelper = new GroupHelper(wd);
+    contactHelper = new ContactHelper(wd);
     navigationHelper = new NavigationHelper(wd);
-    sessionHelper = new SessionHelper(wd, commonHelper);
+    sessionHelper = new SessionHelper(wd);
     sessionHelper.login("admin", "secret");
   }
 
@@ -59,9 +46,6 @@ public class ApplicationManager {
 
   public ContactHelper getContactHelper() {
     return contactHelper;
-  }
-  public CommonHelper getCommonHelper() {
-    return commonHelper;
   }
   public SessionHelper getSessionHelper() {
     return sessionHelper;

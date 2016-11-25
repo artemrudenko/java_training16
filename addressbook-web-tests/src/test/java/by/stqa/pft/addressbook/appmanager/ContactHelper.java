@@ -7,53 +7,50 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 /**
  * Created by artemr on 11/25/2016.
  */
-public class ContactHelper {
-  private FirefoxDriver wd;
-  private CommonHelper commonHelper;
+public class ContactHelper extends HelperBase{
 
-  public ContactHelper(FirefoxDriver wd, CommonHelper commonHelper) {
-    this.wd = wd;
-    this.commonHelper = commonHelper;
+  public ContactHelper(FirefoxDriver wd) {
+    super(wd);
   }
 
   public void submitContactCreation() {
-    wd.findElement(By.xpath("//div[@id='content']/form/input[21]")).click();
+    click(By.xpath("//div[@id='content']/form/input[21]"));
   }
 
   public void fillContactForm(ContactData contactData) {
-    commonHelper.setInputValue(By.name("firstname"), contactData.getFirstname());
-    commonHelper.setInputValue(By.name("middlename"), contactData.getMiddlename());
-    commonHelper.setInputValue(By.name("lastname"), contactData.getLastname());
-    commonHelper.setInputValue(By.name("nickname"), contactData.getNickname());
-    commonHelper.setInputValue(By.name("title"), contactData.getTitle());
-    commonHelper.setInputValue(By.name("company"), contactData.getCompany());
-    commonHelper.setInputValue(By.name("address"), contactData.getAddress());
-    commonHelper.setInputValue(By.name("home"), contactData.getHome());
-    commonHelper.setInputValue(By.name("mobile"), contactData.getMobile());
-    commonHelper.setInputValue(By.name("work"), contactData.getWork());
-    commonHelper.setInputValue(By.name("fax"), contactData.getFax());
-    commonHelper.setInputValue(By.name("email"), contactData.getEmail());
-    commonHelper.setInputValue(By.name("email2"), contactData.getEmail2());
-    commonHelper.setInputValue(By.name("email3"), contactData.getEmail3());
-    commonHelper.setInputValue(By.name("homepage"), contactData.getHomepage());
+    type(By.name("firstname"), contactData.getFirstname());
+    type(By.name("middlename"), contactData.getMiddlename());
+    type(By.name("lastname"), contactData.getLastname());
+    type(By.name("nickname"), contactData.getNickname());
+    type(By.name("title"), contactData.getTitle());
+    type(By.name("company"), contactData.getCompany());
+    type(By.name("address"), contactData.getAddress());
+    type(By.name("home"), contactData.getHome());
+    type(By.name("mobile"), contactData.getMobile());
+    type(By.name("work"), contactData.getWork());
+    type(By.name("fax"), contactData.getFax());
+    type(By.name("email"), contactData.getEmail());
+    type(By.name("email2"), contactData.getEmail2());
+    type(By.name("email3"), contactData.getEmail3());
+    type(By.name("homepage"), contactData.getHomepage());
 
     String[] birtday = contactData.getBirthday().split("-");
-    commonHelper.selectValue(By.name("bday"), birtday[0]);
-    commonHelper.selectValue(By.name("bmonth"), birtday[1]);
-    commonHelper.setInputValue(By.name("byear"), birtday[2]);
+    select(By.name("bday"), birtday[0]);
+    select(By.name("bmonth"), birtday[1]);
+    type(By.name("byear"), birtday[2]);
 
     String[] anniversary = contactData.getAnniversary().split("-");
-    commonHelper.selectValue(By.name("aday"), anniversary[0]);
-    commonHelper.selectValue(By.name("amonth"), anniversary[1]);
-    commonHelper.setInputValue(By.name("ayear"), anniversary[2]);
+    select(By.name("aday"), anniversary[0]);
+    select(By.name("amonth"), anniversary[1]);
+    type(By.name("ayear"), anniversary[2]);
 
-    commonHelper.selectValue(By.name("new_group"), contactData.getGroup());
-    commonHelper.setInputValue(By.name("address2"), contactData.getAddress2());
-    commonHelper.setInputValue(By.name("phone2"), contactData.getPhone2());
-    commonHelper.setInputValue(By.name("notes"), contactData.getNotes());
+    select(By.name("new_group"), contactData.getGroup());
+    type(By.name("address2"), contactData.getAddress2());
+    type(By.name("phone2"), contactData.getPhone2());
+    type(By.name("notes"), contactData.getNotes());
   }
 
   public void initContactCreation() {
-    wd.findElement(By.linkText("add new")).click();
+    click(By.linkText("add new"));
   }
 }

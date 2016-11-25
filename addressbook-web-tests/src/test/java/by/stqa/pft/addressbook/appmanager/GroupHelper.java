@@ -7,38 +7,34 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 /**
  * Created by artemr on 11/25/2016.
  */
-public class GroupHelper {
-  private FirefoxDriver wd;
-  private CommonHelper commonHelper;
-
-  public GroupHelper(FirefoxDriver wd, CommonHelper commonHelper) {
-    this.wd = wd;
-    this.commonHelper = commonHelper;
+public class GroupHelper extends HelperBase{
+  public GroupHelper(FirefoxDriver wd) {
+    super(wd);
   }
 
   public void returnToGroupPage() {
-    wd.findElement(By.linkText("group page")).click();
+    click(By.linkText("group page"));
   }
 
   public void submitGroupCreation() {
-    wd.findElement(By.name("submit")).click();
+    click(By.name("submit"));
   }
 
   public void fillGroupForm(GroupData groupData) {
-    commonHelper.setInputValue(By.name("group_name"), groupData.getName());
-    commonHelper.setInputValue(By.name("group_header"), groupData.getHeader());
-    commonHelper.setInputValue(By.name("group_footer"), groupData.getFooter());
+    type(By.name("group_name"), groupData.getName());
+    type(By.name("group_header"), groupData.getHeader());
+    type(By.name("group_footer"), groupData.getFooter());
   }
 
   public void initGroupCreation() {
-    wd.findElement(By.name("new")).click();
+    click(By.name("new"));
   }
 
   public void deleteSelectedGroups() {
-    wd.findElement(By.name("delete")).click();
+    click(By.name("delete"));
   }
 
   public void selectGroup() {
-    wd.findElement(By.name("selected[]")).click();
+    click(By.name("selected[]"));
   }
 }
