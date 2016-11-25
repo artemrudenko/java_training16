@@ -22,18 +22,18 @@ public class ContactCreationTests extends TestBase {
     Fairy fairy = Fairy.create();
     Company company = fairy.company();
     Person person = fairy.person(withCompany(company));
-    app.initContactCreation();
+    app.getContactHelper().initContactCreation();
     Address address = person.getAddress();
     System.out.println("Middle name is" + person.getMiddleName());
-    app.fillContactForm(new ContactData(person.getFirstName(), person.getMiddleName(), person.getLastName(),
+    app.getContactHelper().fillContactForm(new ContactData(person.getFirstName(), person.getMiddleName(), person.getLastName(),
             person.getFullName(), (person.getSex() == Person.Sex.MALE) ? "Mr." : "Ms.", person.getCompany().getName(),
             address.getStreet(), address.getAddressLine1(), person.getTelephoneNumber(), person.getTelephoneNumber(),
             person.getTelephoneNumber(), person.getEmail(), person.getCompanyEmail(), person.getEmail(),
             person.getEmail(), "2-May-2001", "10-September-2021", "MyGroup1",
             person.getAddress().getAddressLine2(), person.getTelephoneNumber(),
             "Some notes about: " + person.getNationalIdentificationNumber()));
-    app.submitContactCreation();
-    app.returnToHomePage();
+    app.getContactHelper().submitContactCreation();
+    app.getNavigationHelper().returnToHomePage();
   }
 
 }
