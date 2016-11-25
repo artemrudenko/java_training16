@@ -1,3 +1,7 @@
+/**
+ * Created by artemr on 11/25/2016.
+ */
+
 package by.stqa.pft.addressbook;
 
 public class GroupData {
