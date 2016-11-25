@@ -2,8 +2,10 @@
  * Created by artemr on 11/25/2016.
  */
 
-package by.stqa.pft.addressbook;
+package by.stqa.pft.addressbook.appmanager;
 
+import by.stqa.pft.addressbook.model.ContactData;
+import by.stqa.pft.addressbook.model.GroupData;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.firefox.FirefoxBinary;
@@ -11,17 +13,23 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.Select;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
 
 import java.io.File;
 import java.util.concurrent.TimeUnit;
 
-public class TestBase {
+public class ApplicationManager {
   FirefoxDriver wd;
 
-  @BeforeMethod
-  public void setUp() throws Exception {
+  public static boolean isAlertPresent(FirefoxDriver wd) {
+    try {
+      wd.switchTo().alert();
+      return true;
+    } catch (NoAlertPresentException e) {
+      return false;
+    }
+  }
+
+  public void init() {
     DesiredCapabilities caps = new DesiredCapabilities();
     FirefoxBinary bin = new FirefoxBinary(new File("c:\\Program Files (x86)\\Mozilla Firefox ESR\\firefox.exe"));
     wd = new FirefoxDriver(bin, new FirefoxProfile(), caps);
@@ -30,7 +38,7 @@ public class TestBase {
     login("admin", "secret");
   }
 
-  protected void login(String username, String password) {
+  public void login(String username, String password) {
     wd.findElement(By.name("user")).click();
     wd.findElement(By.name("user")).clear();
     wd.findElement(By.name("user")).sendKeys(username);
@@ -40,63 +48,53 @@ public class TestBase {
     wd.findElement(By.xpath("//form[@id='LoginForm']/input[3]")).click();
   }
 
-  protected void setInputValue(By locator, String value){
+  public void setInputValue(By locator, String value) {
     wd.findElement(locator).click();
     wd.findElement(locator).clear();
     wd.findElement(locator).sendKeys(value);
   }
 
-  protected void selectValue(By locator, String value){
+  public void selectValue(By locator, String value) {
     Select select = new Select(wd.findElement(locator));
     // TODO add check on option persistence
     select.selectByVisibleText(value);
   }
 
-  @AfterMethod
-  protected void tearDown() {
+  public void stop() {
     wd.quit();
   }
 
-  protected static boolean isAlertPresent(FirefoxDriver wd) {
-    try {
-      wd.switchTo().alert();
-      return true;
-    } catch (NoAlertPresentException e) {
-      return false;
-    }
-  }
-
-  protected void returnToGroupPage() {
+  public void returnToGroupPage() {
     wd.findElement(By.linkText("group page")).click();
   }
 
-  protected void submitGroupCreation() {
+  public void submitGroupCreation() {
     wd.findElement(By.name("submit")).click();
   }
 
-  protected void fillGroupForm(GroupData groupData) {
+  public void fillGroupForm(GroupData groupData) {
     setInputValue(By.name("group_name"), groupData.getName());
     setInputValue(By.name("group_header"), groupData.getHeader());
     setInputValue(By.name("group_footer"), groupData.getFooter());
   }
 
-  protected void initGroupCreation() {
+  public void initGroupCreation() {
     wd.findElement(By.name("new")).click();
   }
 
-  protected void gotoGroupPage() {
+  public void gotoGroupPage() {
     wd.findElement(By.linkText("groups")).click();
   }
 
-  protected void returnToHomePage() {
+  public void returnToHomePage() {
     wd.findElement(By.linkText("home")).click();
   }
 
-  protected void submitContactCreation() {
+  public void submitContactCreation() {
     wd.findElement(By.xpath("//div[@id='content']/form/input[21]")).click();
   }
 
-  protected void fillContactForm(ContactData contactData) {
+  public void fillContactForm(ContactData contactData) {
     setInputValue(By.name("firstname"), contactData.getFirstname());
     setInputValue(By.name("middlename"), contactData.getMiddlename());
     setInputValue(By.name("lastname"), contactData.getLastname());
@@ -129,15 +127,15 @@ public class TestBase {
     setInputValue(By.name("notes"), contactData.getNotes());
   }
 
-  protected void initContactCreation() {
+  public void initContactCreation() {
     wd.findElement(By.linkText("add new")).click();
   }
 
-  protected void deleteSelectedGroups() {
-      wd.findElement(By.name("delete")).click();
+  public void deleteSelectedGroups() {
+    wd.findElement(By.name("delete")).click();
   }
 
-  protected void selectGroup() {
-      wd.findElement(By.name("selected[]")).click();
+  public void selectGroup() {
+    wd.findElement(By.name("selected[]")).click();
   }
 }
