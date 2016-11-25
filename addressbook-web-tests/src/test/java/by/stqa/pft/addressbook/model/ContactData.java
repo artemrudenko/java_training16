@@ -29,7 +29,7 @@ public class ContactData {
 
   public ContactData(String firstname, String middlename, String lastname, String nickname, String title,
                      String company, String address, String home, String mobile, String work, String fax,
-                     String email, String email2, String email3, String homepage, String byear, String anniversary,
+                     String email, String email2, String email3, String homepage, String birthday, String anniversary,
                      String group, String address2, String phone2, String notes) {
     this.firstname = firstname;
     this.middlename = middlename;
@@ -46,7 +46,7 @@ public class ContactData {
     this.email2 = email2;
     this.email3 = email3;
     this.homepage = homepage;
-    this.birthday = byear;
+    this.birthday = birthday;
     this.anniversary = anniversary;
     this.group = group;
     this.address2 = address2;
