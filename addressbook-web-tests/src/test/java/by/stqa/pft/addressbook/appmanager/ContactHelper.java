@@ -8,6 +8,8 @@ import io.codearte.jfairy.producer.person.Person;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
 import static io.codearte.jfairy.producer.person.PersonProperties.withCompany;
@@ -22,7 +24,13 @@ public class ContactHelper extends HelperBase{
   }
 
   public void submitContactCreation() {
-    click(By.xpath("//div[@id='content']/form/input[21]"));
+    click(By.name("submit"));
+    waitHomePageLoad();
+  }
+
+  public void submitContactUpdate() {
+    click(By.name("update"));
+    waitHomePageLoad();
   }
 
   public void fillContactForm(ContactData contactData, boolean creation) {
@@ -82,6 +90,11 @@ public class ContactHelper extends HelperBase{
   public void deleteSelectedContacts(boolean confirm){
     click(By.cssSelector("input[value='Delete']"));
     closeAlert(confirm);
+    waitHomePageLoad();
+  }
+
+  private void waitHomePageLoad() {
+    waitElementVisible(By.id("maintable"));
   }
 
   public ContactData generate(String group){
@@ -96,5 +109,15 @@ public class ContactHelper extends HelperBase{
             person.getEmail(), "2-May-2001", "10-September-2021", group,
             person.getAddress().getAddressLine2(), person.getTelephoneNumber(),
             "Some notes about: " + person.getNationalIdentificationNumber());
+  }
+
+  public boolean isThereAContact(){
+    return isElementPresent(By.cssSelector("#maintable [name='selected[]']"));
+  }
+
+  public void createContact(ContactData data){
+    initContactCreation();
+    fillContactForm(data, true);
+    submitContactCreation();
   }
 }
