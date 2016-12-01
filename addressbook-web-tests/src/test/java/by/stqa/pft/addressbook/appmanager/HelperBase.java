@@ -7,11 +7,10 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.Select;
 
-import java.util.Iterator;
 import java.util.List;
+
 
 public class HelperBase {
   private WebDriver wd;
@@ -23,8 +22,11 @@ public class HelperBase {
   public void type(By locator, String text) {
     wd.findElement(locator).click();
     if (text != null) {
-      wd.findElement(locator).clear();
-      wd.findElement(locator).sendKeys(text);
+      String existingText = wd.findElement(locator).getAttribute("value");
+      if (!existingText.equals(text)) {
+        wd.findElement(locator).clear();
+        wd.findElement(locator).sendKeys(text);
+      }
     }
   }
 

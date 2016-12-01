@@ -15,7 +15,6 @@ import org.openqa.selenium.remote.BrowserType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 import java.io.File;
-import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 public class ApplicationManager {
@@ -32,14 +31,17 @@ public class ApplicationManager {
 
   public void init() {
     DesiredCapabilities caps = new DesiredCapabilities();
-    if (browser.equals(BrowserType.FIREFOX)) {
-      FirefoxBinary bin = new FirefoxBinary(new File("c:\\Program Files (x86)\\Mozilla Firefox ESR\\firefox.exe"));
-      wd = new FirefoxDriver(bin, new FirefoxProfile(), caps);
-
-    } else if (browser.equals(BrowserType.CHROME)) {
-      wd = new ChromeDriver(caps);
-    } else if (browser.equals(BrowserType.IE)) {
-      wd = new InternetExplorerDriver(caps);
+    switch (browser) {
+      case BrowserType.FIREFOX:
+        FirefoxBinary bin = new FirefoxBinary(new File("c:\\Program Files (x86)\\Mozilla Firefox ESR\\firefox.exe"));
+        wd = new FirefoxDriver(bin, new FirefoxProfile(), caps);
+        break;
+      case BrowserType.CHROME:
+        wd = new ChromeDriver(caps);
+        break;
+      case BrowserType.IE:
+        wd = new InternetExplorerDriver(caps);
+        break;
     }
 
     wd.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
@@ -65,10 +67,6 @@ public class ApplicationManager {
 
   public ContactHelper getContactHelper() {
     return contactHelper;
-  }
-
-  public SessionHelper getSessionHelper() {
-    return sessionHelper;
   }
 
 }

@@ -7,9 +7,6 @@ import io.codearte.jfairy.producer.person.Address;
 import io.codearte.jfairy.producer.person.Person;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
-
-import java.util.List;
 
 import static io.codearte.jfairy.producer.person.PersonProperties.withCompany;
 
