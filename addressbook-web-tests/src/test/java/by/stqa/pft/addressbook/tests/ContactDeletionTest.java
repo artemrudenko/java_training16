@@ -1,5 +1,6 @@
 package by.stqa.pft.addressbook.tests;
 
+import by.stqa.pft.addressbook.model.ContactData;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -9,6 +10,12 @@ import org.testng.annotations.Test;
 public class ContactDeletionTest extends TestBase{
   @Test
   public void testNotConfirmContactDeletion(){
+    app.getNavigationHelper().gotoToHomePage();
+    if(!app.getContactHelper().isThereAContact()){
+      ContactData data = app.getContactHelper().generate(null);
+      app.getContactHelper().createContact(data);
+//      app.getNavigationHelper().gotoToHomePage();
+    }
     String[] contacts = app.getContactHelper().getContacts();
     int before = contacts.length;
     app.getContactHelper().selectContact(contacts[0]);
@@ -18,6 +25,12 @@ public class ContactDeletionTest extends TestBase{
   }
   @Test
   public void testConfirmSingleContactDeletion(){
+    app.getNavigationHelper().gotoToHomePage();
+    if(!app.getContactHelper().isThereAContact()){
+      ContactData data = app.getContactHelper().generate(null);
+      app.getContactHelper().createContact(data);
+//      app.getNavigationHelper().gotoToHomePage();
+    }
     String[] contacts = app.getContactHelper().getContacts();
     int before = contacts.length;
     app.getContactHelper().selectContact(contacts[0]);

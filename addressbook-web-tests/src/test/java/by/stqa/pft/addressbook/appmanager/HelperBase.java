@@ -4,7 +4,9 @@
 package by.stqa.pft.addressbook.appmanager;
 
 import org.openqa.selenium.*;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -12,9 +14,11 @@ import java.util.concurrent.TimeUnit;
 
 public class HelperBase {
   public WebDriver wd;
+  public WebDriverWait wait;
 
   public HelperBase(WebDriver wd) {
     this.wd = wd;
+    this.wait = new WebDriverWait(wd, 60);
   }
 
   public void type(By locator, String text) {
@@ -29,6 +33,9 @@ public class HelperBase {
   }
 
   public void select(By locator, String text) {
+    if(text == null){
+      return;
+    }
     Select select = new Select(wd.findElement(locator));
     WebElement option = select.getFirstSelectedOption();
     if(!option.getText().equals(text)){
@@ -93,15 +100,15 @@ public class HelperBase {
   }
 
   public boolean isElementPresent(By locator) {
-    wd.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
     try{
       wd.findElement(locator);
       return true;
-    }catch (NoSuchElementException ex){
+    }catch (NoSuchElementException ex) {
       return false;
-    }finally {
-      wd.manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS);
     }
   }
 
+  public void waitElementVisible(By locator) {
+    wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
+  }
 }

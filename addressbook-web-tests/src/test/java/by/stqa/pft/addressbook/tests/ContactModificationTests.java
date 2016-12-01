@@ -10,11 +10,17 @@ import org.testng.annotations.Test;
 public class ContactModificationTests extends TestBase {
   @Test
   public void testContactModification() {
+    app.getNavigationHelper().gotoToHomePage();
+    if(!app.getContactHelper().isThereAContact()){
+      ContactData data = app.getContactHelper().generate(null);
+      app.getContactHelper().createContact(data);
+//      app.getNavigationHelper().gotoToHomePage();
+    }
     String[] rowsText = app.getContactHelper().getContacts();
     app.getContactHelper().initContactModification(rowsText[0]);
-    ContactData data = app.getContactHelper().generate("MyGroup1");
+    ContactData data = app.getContactHelper().generate(null);
     app.getContactHelper().fillContactForm(data, false);
-    app.getContactHelper().submitContactCreation();
-    app.getNavigationHelper().returnToHomePage();
+    app.getContactHelper().submitContactUpdate();
+    app.getNavigationHelper().gotoToHomePage();
   }
 }

@@ -12,11 +12,9 @@ public class ContactCreationTests extends TestBase {
 
   @Test
   public void testContactCreation() {
-    ContactData data = app.getContactHelper().generate("MyGroup1");
-    app.getContactHelper().initContactCreation();
-    app.getContactHelper().fillContactForm(data, true);
-    app.getContactHelper().submitContactCreation();
-    app.getNavigationHelper().returnToHomePage();
+    ContactData data = app.getContactHelper().generate(null);
+    app.getContactHelper().createContact(data);
+    app.getNavigationHelper().gotoToHomePage();
   }
 
 }
