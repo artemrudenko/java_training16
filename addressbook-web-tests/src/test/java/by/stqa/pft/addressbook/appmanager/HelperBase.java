@@ -30,8 +30,10 @@ public class HelperBase {
 
   public void select(By locator, String text) {
     Select select = new Select(wd.findElement(locator));
-    // TODO add check on option persistence
-    select.selectByVisibleText(text);
+    WebElement option = select.getFirstSelectedOption();
+    if(!option.getText().equals(text)){
+      select.selectByVisibleText(text);
+    }
   }
 
   public void click(By locator) {
