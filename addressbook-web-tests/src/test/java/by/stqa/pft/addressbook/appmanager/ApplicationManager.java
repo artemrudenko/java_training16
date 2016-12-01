@@ -5,25 +5,42 @@
 package by.stqa.pft.addressbook.appmanager;
 
 
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxBinary;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxProfile;
+import org.openqa.selenium.ie.InternetExplorerDriver;
+import org.openqa.selenium.remote.BrowserType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 import java.io.File;
 import java.util.concurrent.TimeUnit;
 
 public class ApplicationManager {
-  FirefoxDriver wd;
+  WebDriver wd;
   private ContactHelper contactHelper;
   private NavigationHelper navigationHelper;
   private GroupHelper groupHelper;
   private SessionHelper sessionHelper;
+  private String browser;
+
+  public ApplicationManager(String browser) {
+    this.browser = browser;
+  }
 
   public void init() {
     DesiredCapabilities caps = new DesiredCapabilities();
-    FirefoxBinary bin = new FirefoxBinary(new File("c:\\Program Files (x86)\\Mozilla Firefox ESR\\firefox.exe"));
-    wd = new FirefoxDriver(bin, new FirefoxProfile(), caps);
+    if (browser == BrowserType.FIREFOX) {
+      FirefoxBinary bin = new FirefoxBinary(new File("c:\\Program Files (x86)\\Mozilla Firefox ESR\\firefox.exe"));
+      wd = new FirefoxDriver(bin, new FirefoxProfile(), caps);
+
+    } else if (browser == BrowserType.CHROME) {
+      wd = new ChromeDriver(caps);
+    } else if (browser == BrowserType.IE) {
+      wd = new InternetExplorerDriver(caps);
+    }
+
     wd.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
     wd.get("http://localhost/addressbook/");
     groupHelper = new GroupHelper(wd);

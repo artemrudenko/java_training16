@@ -6,6 +6,7 @@ import io.codearte.jfairy.producer.company.Company;
 import io.codearte.jfairy.producer.person.Address;
 import io.codearte.jfairy.producer.person.Person;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
 import java.util.List;
@@ -17,7 +18,7 @@ import static io.codearte.jfairy.producer.person.PersonProperties.withCompany;
  */
 public class ContactHelper extends HelperBase{
 
-  public ContactHelper(FirefoxDriver wd) {
+  public ContactHelper(WebDriver wd) {
     super(wd);
   }
 
