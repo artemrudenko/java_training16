@@ -13,7 +13,7 @@ public class ContactModificationTests extends TestBase {
     String[] rowsText = app.getContactHelper().getContacts();
     app.getContactHelper().initContactModification(rowsText[0]);
     ContactData data = app.getContactHelper().generate("MyGroup1");
-    app.getContactHelper().fillContactForm(data, true);
+    app.getContactHelper().fillContactForm(data, false);
     app.getContactHelper().submitContactCreation();
     app.getNavigationHelper().returnToHomePage();
   }

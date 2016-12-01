@@ -18,6 +18,7 @@ import java.io.File;
 import java.util.concurrent.TimeUnit;
 
 public class ApplicationManager {
+  private int timeout;
   WebDriver wd;
   private ContactHelper contactHelper;
   private NavigationHelper navigationHelper;
@@ -27,6 +28,7 @@ public class ApplicationManager {
 
   public ApplicationManager(String browser) {
     this.browser = browser;
+    this.timeout = 0;
   }
 
   public void init() {
@@ -44,7 +46,7 @@ public class ApplicationManager {
         break;
     }
 
-    wd.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
+    wd.manage().timeouts().implicitlyWait(this.timeout, TimeUnit.SECONDS);
     wd.get("http://localhost/addressbook/");
     groupHelper = new GroupHelper(wd);
     contactHelper = new ContactHelper(wd);

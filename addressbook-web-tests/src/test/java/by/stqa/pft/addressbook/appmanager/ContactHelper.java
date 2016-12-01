@@ -6,7 +6,9 @@ import io.codearte.jfairy.producer.company.Company;
 import io.codearte.jfairy.producer.person.Address;
 import io.codearte.jfairy.producer.person.Person;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
+import org.testng.Assert;
 
 import static io.codearte.jfairy.producer.person.PersonProperties.withCompany;
 
@@ -23,7 +25,7 @@ public class ContactHelper extends HelperBase{
     click(By.xpath("//div[@id='content']/form/input[21]"));
   }
 
-  public void fillContactForm(ContactData contactData, boolean edit) {
+  public void fillContactForm(ContactData contactData, boolean creation) {
     type(By.name("firstname"), contactData.getFirstname());
     type(By.name("middlename"), contactData.getMiddlename());
     type(By.name("lastname"), contactData.getLastname());
@@ -49,9 +51,13 @@ public class ContactHelper extends HelperBase{
     select(By.name("aday"), anniversary[0]);
     select(By.name("amonth"), anniversary[1]);
     type(By.name("ayear"), anniversary[2]);
-    if(!edit){
+    
+    if(creation){
       select(By.name("new_group"), contactData.getGroup());
+    }else {
+      Assert.assertFalse(isElementPresent(By.name("new_group")));
     }
+
     type(By.name("address2"), contactData.getAddress2());
     type(By.name("phone2"), contactData.getPhone2());
     type(By.name("notes"), contactData.getNotes());

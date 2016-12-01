@@ -3,17 +3,15 @@
  */
 package by.stqa.pft.addressbook.appmanager;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.NoAlertPresentException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.Select;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 
 public class HelperBase {
-  private WebDriver wd;
+  public WebDriver wd;
 
   public HelperBase(WebDriver wd) {
     this.wd = wd;
@@ -91,4 +89,17 @@ public class HelperBase {
       }
     }
   }
+
+  public boolean isElementPresent(By locator) {
+    wd.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
+    try{
+      wd.findElement(locator);
+      return true;
+    }catch (NoSuchElementException ex){
+      return false;
+    }finally {
+      wd.manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS);
+    }
+  }
+
 }
