@@ -22,8 +22,8 @@ public class HelperBase {
   }
 
   public void type(By locator, String text) {
-    wd.findElement(locator).click();
     if (text != null) {
+      wd.findElement(locator).click();
       String existingText = wd.findElement(locator).getAttribute("value");
       if (!existingText.equals(text)) {
         wd.findElement(locator).clear();
@@ -81,7 +81,7 @@ public class HelperBase {
     String[] out = new String[rows.size()];
     for (int i = 0; i < rows.size(); i++) {
       out[i] = rows.get(i).getText();
-      ++i;
+//      ++i;
     }
     return out;
   }
@@ -89,8 +89,7 @@ public class HelperBase {
   public void clickTableElement(By tableLocator, String text, By elementLocator) {
     WebElement table = wd.findElement(tableLocator);
     List<WebElement> rows = table.findElements(By.name("entry"));
-    for (int i = 0; i < rows.size(); i++) {
-      WebElement row = rows.get(i);
+    for (WebElement row : rows) {
       // think on better condition here
       if (row.getText().contains(text)) {
         row.findElement(elementLocator).click();

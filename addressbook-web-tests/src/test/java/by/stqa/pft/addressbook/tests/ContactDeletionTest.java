@@ -4,6 +4,9 @@ import by.stqa.pft.addressbook.model.ContactData;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import java.util.Comparator;
+import java.util.List;
+
 /**
  * Created by artemr on 11/25/2016.
  */
@@ -14,29 +17,31 @@ public class ContactDeletionTest extends TestBase{
     if(!app.getContactHelper().isThereAContact()){
       ContactData data = app.getContactHelper().generate(null);
       app.getContactHelper().createContact(data);
-//      app.getNavigationHelper().gotoToHomePage();
+      app.getNavigationHelper().gotoToHomePage();
     }
-    String[] contacts = app.getContactHelper().getContacts();
-    int before = contacts.length;
-    app.getContactHelper().selectContact(contacts[0]);
+    List<ContactData> before = app.getContactHelper().getGontactsList();
+    app.getContactHelper().selectContactById(before.size() - 1);
     app.getContactHelper().deleteSelectedContacts(false);
-    Assert.assertEquals(app.getContactHelper().getContacts().length, before,
-            "The same amount of contacts should present");
+    List<ContactData> after = app.getContactHelper().getGontactsList();
+    Assert.assertEquals(after.size(), before.size());
+    Assert.assertEquals(before, after);
   }
+
   @Test
   public void testConfirmSingleContactDeletion(){
     app.getNavigationHelper().gotoToHomePage();
     if(!app.getContactHelper().isThereAContact()){
       ContactData data = app.getContactHelper().generate(null);
       app.getContactHelper().createContact(data);
-//      app.getNavigationHelper().gotoToHomePage();
+      app.getNavigationHelper().gotoToHomePage();
     }
-    String[] contacts = app.getContactHelper().getContacts();
-    int before = contacts.length;
-    app.getContactHelper().selectContact(contacts[0]);
+    List<ContactData> before = app.getContactHelper().getGontactsList();
+    app.getContactHelper().selectContactById(before.size() - 1);
     app.getContactHelper().deleteSelectedContacts(true);
-    Assert.assertEquals(app.getContactHelper().getContacts().length, before-1,
-            "One and only one item deleted if single item selected");
+    List<ContactData> after = app.getContactHelper().getGontactsList();
+    Assert.assertEquals(after.size(), before.size() - 1);
 
+    before.remove(before.size()-1);
+    Assert.assertEquals(before, after);
   }
 }

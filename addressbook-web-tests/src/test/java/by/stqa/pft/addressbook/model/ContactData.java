@@ -5,27 +5,50 @@
 package by.stqa.pft.addressbook.model;
 
 public class ContactData {
+  private int id;
   private final String firstname;
-  private final String middlename;
+  private String middlename = null;
   private final String lastname;
-  private final String nickname;
-  private final String title;
-  private final String company;
-  private final String address;
-  private final String home;
-  private final String mobile;
-  private final String work;
-  private final String fax;
-  private final String email;
-  private final String email2;
-  private final String email3;
-  private final String homepage;
-  private final String birthday;
-  private final String anniversary;
-  private final String group;
-  private final String address2;
-  private final String phone2;
-  private final String notes;
+  private String nickname = null;
+  private String title = null;
+  private String company = null;
+  private String address;
+  private String home = null;
+  private String mobile = null;
+  private String work = null;
+  private String fax = null;
+  private String email = null;
+  private String email2 = null;
+  private String email3 = null;
+  private String homepage = null;
+  private String birthday = null;
+  private String anniversary = null;
+  private String group = null;
+  private String address2 = null;
+  private String phone2 = null;
+  private String notes = null;
+
+  public void setId(int id) {
+    this.id = id;
+  }
+
+  public int getId() {
+    return id;
+  }
+
+  public ContactData(String firstname, String lastname, String address) {
+    this.id = Integer.MAX_VALUE;
+    this.firstname = firstname;
+    this.lastname = lastname;
+    this.address = address;
+  }
+
+  public ContactData(int id, String firstname, String lastname, String address) {
+    this.id = id;
+    this.firstname = firstname;
+    this.lastname = lastname;
+    this.address = address;
+  }
 
   public ContactData(String firstname, String middlename, String lastname, String nickname, String title,
                      String company, String address, String home, String mobile, String work, String fax,
@@ -136,5 +159,35 @@ public class ContactData {
 
   public String getNotes() {
     return notes;
+  }
+
+  @Override
+  public String toString() {
+    return "ContactData{" +
+            "id=" + id +
+            ", firstname='" + firstname + '\'' +
+            ", lastname='" + lastname + '\'' +
+            ", address='" + address + '\'' +
+            '}';
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+
+    ContactData that = (ContactData) o;
+
+    if (firstname != null ? !firstname.equals(that.firstname) : that.firstname != null) return false;
+    if (lastname != null ? !lastname.equals(that.lastname) : that.lastname != null) return false;
+    return address != null ? address.equals(that.address) : that.address == null;
+  }
+
+  @Override
+  public int hashCode() {
+    int result = firstname != null ? firstname.hashCode() : 0;
+    result = 31 * result + (lastname != null ? lastname.hashCode() : 0);
+    result = 31 * result + (address != null ? address.hashCode() : 0);
+    return result;
   }
 }

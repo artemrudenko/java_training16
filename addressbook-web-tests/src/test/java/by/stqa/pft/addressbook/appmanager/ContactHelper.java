@@ -6,11 +6,12 @@ import io.codearte.jfairy.producer.company.Company;
 import io.codearte.jfairy.producer.person.Address;
 import io.codearte.jfairy.producer.person.Person;
 import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.WebElement;
 import org.testng.Assert;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static io.codearte.jfairy.producer.person.PersonProperties.withCompany;
 
@@ -50,16 +51,19 @@ public class ContactHelper extends HelperBase{
     type(By.name("email3"), contactData.getEmail3());
     type(By.name("homepage"), contactData.getHomepage());
 
-    String[] birtday = contactData.getBirthday().split("-");
-    select(By.name("bday"), birtday[0]);
-    select(By.name("bmonth"), birtday[1]);
-    type(By.name("byear"), birtday[2]);
+    if(contactData.getBirthday() != null){
+      String[] birtday = contactData.getBirthday().split("-");
+      select(By.name("bday"), birtday[0]);
+      select(By.name("bmonth"), birtday[1]);
+      type(By.name("byear"), birtday[2]);
+    }
 
-    String[] anniversary = contactData.getAnniversary().split("-");
-    select(By.name("aday"), anniversary[0]);
-    select(By.name("amonth"), anniversary[1]);
-    type(By.name("ayear"), anniversary[2]);
-    
+    if(contactData.getAnniversary() != null) {
+      String[] anniversary = contactData.getAnniversary().split("-");
+      select(By.name("aday"), anniversary[0]);
+      select(By.name("amonth"), anniversary[1]);
+      type(By.name("ayear"), anniversary[2]);
+    }
     if(creation){
       select(By.name("new_group"), contactData.getGroup());
     }else {
@@ -79,12 +83,20 @@ public class ContactHelper extends HelperBase{
     clickTableElement(By.id("maintable"), text, By.name("selected[]"));
   }
 
+  public void selectContactById(int index){
+    wd.findElement(By.id("maintable")).findElements(By.name("selected[]")).get(index).click();
+  }
+
   public String[] getContacts(){
     return getTableRowsText(By.id("maintable"));
   }
 
   public void initContactModification(String text){
     clickTableElement(By.id("maintable"), text, By.cssSelector("a img[title='Edit']"));
+  }
+
+  public void initContactModificationById(int index){
+    wd.findElement(By.id("maintable")).findElements(By.cssSelector("a img[title='Edit']")).get(index).click();
   }
 
   public void deleteSelectedContacts(boolean confirm){
@@ -95,6 +107,13 @@ public class ContactHelper extends HelperBase{
 
   private void waitHomePageLoad() {
     waitElementVisible(By.id("maintable"));
+  }
+
+  public ContactData generate(){
+    Fairy fairy = Fairy.create();
+    Company company = fairy.company();
+    Person person = fairy.person(withCompany(company));
+    return new ContactData(person.getFirstName(), person.getLastName(), person.getAddress().getStreet());
   }
 
   public ContactData generate(String group){
@@ -119,5 +138,20 @@ public class ContactHelper extends HelperBase{
     initContactCreation();
     fillContactForm(data, true);
     submitContactCreation();
+  }
+
+  public List<ContactData> getGontactsList() {
+    List<ContactData> contacts = new ArrayList<>();
+    List<WebElement> rows = wd.findElements(By.cssSelector("tr[name=entry]"));
+    for(WebElement row: rows){
+      int id = Integer.parseInt(row.findElement(By.cssSelector("input[name='selected[]']")).getAttribute("value"));
+      String lastname = row.findElement(By.cssSelector("td:nth-child(2)")).getText();
+      String firstname = row.findElement(By.cssSelector("td:nth-child(3)")).getText();
+      String address = row.findElement(By.cssSelector("td:nth-child(4)")).getText();
+      contacts.add(new ContactData(id, firstname, lastname, address));
+    }
+    return contacts;
+
+
   }
 }
