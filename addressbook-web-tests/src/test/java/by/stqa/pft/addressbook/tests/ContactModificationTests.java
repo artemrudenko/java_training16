@@ -23,6 +23,7 @@ public class ContactModificationTests extends TestBase {
     List<ContactData> before = app.getContactHelper().getGontactsList();
     app.getContactHelper().initContactModificationById(before.size() - 1);
     ContactData data = app.getContactHelper().generate();
+    data.setId(before.get(before.size() - 1).getId());
     app.getContactHelper().fillContactForm(data, false);
     app.getContactHelper().submitContactUpdate();
 

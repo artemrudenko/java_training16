@@ -30,4 +30,20 @@ public class ContactCreationTests extends TestBase {
     Assert.assertEquals(before, after);
   }
 
+  @Test
+  public void testFullContactCreation() {
+    List<ContactData> before = app.getContactHelper().getGontactsList();
+    ContactData data = app.getContactHelper().generate(null);
+    app.getContactHelper().createContact(data);
+    app.getNavigationHelper().gotoToHomePage();
+    List<ContactData> after = app.getContactHelper().getGontactsList();
+    Assert.assertEquals(after.size(), before.size() + 1);
+
+    Comparator<? super ContactData> byId = (c1, c2) -> Integer.compare(c1.getId(), c2.getId());
+    data.setId(after.stream().max(byId).get().getId());
+    before.add(data);
+    before.sort(byId);
+    after.sort(byId);
+    Assert.assertEquals(before, after);
+  }
 }
