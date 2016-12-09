@@ -12,10 +12,11 @@ import java.util.Comparator;
 import java.util.List;
 
 public class ContactModificationTests extends TestBase {
+
   @Test
   public void testContactModification() {
     app.getNavigationHelper().gotoToHomePage();
-    if(!app.getContactHelper().isThereAContact()){
+    if (!app.getContactHelper().isThereAContact()) {
       ContactData data = app.getContactHelper().generate(null);
       app.getContactHelper().createContact(data);
       app.getNavigationHelper().gotoToHomePage();
@@ -33,7 +34,7 @@ public class ContactModificationTests extends TestBase {
 
     before.remove(before.size() - 1);
     before.add(data);
-    Comparator<? super ContactData> byId = (g1, g2) -> Integer.compare(g1.getId(), g2.getId());
+    Comparator<? super ContactData> byId = Comparator.comparingInt(ContactData::getId);
     before.sort(byId);
     after.sort(byId);
     Assert.assertEquals(before, after);

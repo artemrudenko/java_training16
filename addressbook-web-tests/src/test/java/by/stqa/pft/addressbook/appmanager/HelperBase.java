@@ -9,7 +9,6 @@ import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 
 public class HelperBase {
@@ -33,29 +32,18 @@ public class HelperBase {
   }
 
   public void select(By locator, String text) {
-    if(text == null){
+    if (text == null) {
       return;
     }
     Select select = new Select(wd.findElement(locator));
     WebElement option = select.getFirstSelectedOption();
-    if(!option.getText().equals(text)){
+    if (!option.getText().equals(text)) {
       select.selectByVisibleText(text);
     }
   }
 
   public void click(By locator) {
     wd.findElement(locator).click();
-  }
-
-  public String[] getTitles() {
-    List<WebElement> elements = wd.findElements(By.name("selected[]"));
-    String[] out = new String[elements.size()];
-    int i = 0;
-    for (WebElement item : elements) {
-      out[i] = item.getAttribute("title");
-      ++i;
-    }
-    return out;
   }
 
   public boolean isAlertPresent() {
@@ -99,10 +87,10 @@ public class HelperBase {
   }
 
   public boolean isElementPresent(By locator) {
-    try{
+    try {
       wd.findElement(locator);
       return true;
-    }catch (NoSuchElementException ex) {
+    } catch (NoSuchElementException ex) {
       return false;
     }
   }

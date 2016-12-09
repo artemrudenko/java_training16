@@ -24,7 +24,7 @@ public class ContactCreationTests extends TestBase {
     Assert.assertEquals(after.size(), before.size() + 1);
 
     before.add(data);
-    Comparator<? super ContactData> byId = (c1, c2) -> Integer.compare(c1.getId(), c2.getId());
+    Comparator<? super ContactData> byId = Comparator.comparingInt(ContactData::getId);
     before.sort(byId);
     after.sort(byId);
     Assert.assertEquals(before, after);
@@ -39,7 +39,7 @@ public class ContactCreationTests extends TestBase {
     List<ContactData> after = app.getContactHelper().getGontactsList();
     Assert.assertEquals(after.size(), before.size() + 1);
 
-    Comparator<? super ContactData> byId = (c1, c2) -> Integer.compare(c1.getId(), c2.getId());
+    Comparator<? super ContactData> byId = Comparator.comparingInt(ContactData::getId);
     data.setId(after.stream().max(byId).get().getId());
     before.add(data);
     before.sort(byId);

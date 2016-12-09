@@ -1,15 +1,14 @@
+/**
+ * Created by artemr on 11/25/2016.
+ */
 package by.stqa.pft.addressbook.tests;
 
 import by.stqa.pft.addressbook.model.ContactData;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import java.util.Comparator;
 import java.util.List;
 
-/**
- * Created by artemr on 11/25/2016.
- */
 public class ContactDeletionTest extends TestBase{
   @Test
   public void testNotConfirmContactDeletion(){
