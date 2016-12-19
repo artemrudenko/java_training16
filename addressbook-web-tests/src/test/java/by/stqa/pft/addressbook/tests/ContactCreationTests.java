@@ -16,11 +16,11 @@ public class ContactCreationTests extends TestBase {
 
   @Test(enabled = false)
   public void testContactCreation() {
-    List<ContactData> before = app.getContactHelper().getGontactsList();
-    ContactData data = app.getContactHelper().generate();
-    app.getContactHelper().createContact(data);
-    app.getNavigationHelper().gotoToHomePage();
-    List<ContactData> after = app.getContactHelper().getGontactsList();
+    List<ContactData> before = app.contact().getGontactsList();
+    ContactData data = app.contact().generate();
+    app.contact().createContact(data);
+    app.goTo().gotoToHomePage();
+    List<ContactData> after = app.contact().getGontactsList();
     Assert.assertEquals(after.size(), before.size() + 1);
 
     before.add(data);
@@ -32,11 +32,11 @@ public class ContactCreationTests extends TestBase {
 
   @Test(enabled = false)
   public void testFullContactCreation() {
-    List<ContactData> before = app.getContactHelper().getGontactsList();
-    ContactData data = app.getContactHelper().generate(null);
-    app.getContactHelper().createContact(data);
-    app.getNavigationHelper().gotoToHomePage();
-    List<ContactData> after = app.getContactHelper().getGontactsList();
+    List<ContactData> before = app.contact().getGontactsList();
+    ContactData data = app.contact().generate(null);
+    app.contact().createContact(data);
+    app.goTo().gotoToHomePage();
+    List<ContactData> after = app.contact().getGontactsList();
     Assert.assertEquals(after.size(), before.size() + 1);
 
     Comparator<? super ContactData> byId = Comparator.comparingInt(ContactData::getId);

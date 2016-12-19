@@ -12,32 +12,32 @@ import java.util.List;
 public class ContactDeletionTest extends TestBase{
   @Test(enabled = false)
   public void testNotConfirmContactDeletion(){
-    app.getNavigationHelper().gotoToHomePage();
-    if(!app.getContactHelper().isThereAContact()){
-      ContactData data = app.getContactHelper().generate(null);
-      app.getContactHelper().createContact(data);
-      app.getNavigationHelper().gotoToHomePage();
+    app.goTo().gotoToHomePage();
+    if(!app.contact().isThereAContact()){
+      ContactData data = app.contact().generate(null);
+      app.contact().createContact(data);
+      app.goTo().gotoToHomePage();
     }
-    List<ContactData> before = app.getContactHelper().getGontactsList();
-    app.getContactHelper().selectContactById(before.size() - 1);
-    app.getContactHelper().deleteSelectedContacts(false);
-    List<ContactData> after = app.getContactHelper().getGontactsList();
+    List<ContactData> before = app.contact().getGontactsList();
+    app.contact().selectContactById(before.size() - 1);
+    app.contact().deleteSelectedContacts(false);
+    List<ContactData> after = app.contact().getGontactsList();
     Assert.assertEquals(after.size(), before.size());
     Assert.assertEquals(before, after);
   }
 
   @Test(enabled = false)
   public void testConfirmSingleContactDeletion(){
-    app.getNavigationHelper().gotoToHomePage();
-    if(!app.getContactHelper().isThereAContact()){
-      ContactData data = app.getContactHelper().generate(null);
-      app.getContactHelper().createContact(data);
-      app.getNavigationHelper().gotoToHomePage();
+    app.goTo().gotoToHomePage();
+    if(!app.contact().isThereAContact()){
+      ContactData data = app.contact().generate(null);
+      app.contact().createContact(data);
+      app.goTo().gotoToHomePage();
     }
-    List<ContactData> before = app.getContactHelper().getGontactsList();
-    app.getContactHelper().selectContactById(before.size() - 1);
-    app.getContactHelper().deleteSelectedContacts(true);
-    List<ContactData> after = app.getContactHelper().getGontactsList();
+    List<ContactData> before = app.contact().getGontactsList();
+    app.contact().selectContactById(before.size() - 1);
+    app.contact().deleteSelectedContacts(true);
+    List<ContactData> after = app.contact().getGontactsList();
     Assert.assertEquals(after.size(), before.size() - 1);
 
     before.remove(before.size()-1);

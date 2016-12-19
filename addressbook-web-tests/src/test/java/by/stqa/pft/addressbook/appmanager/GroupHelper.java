@@ -20,7 +20,7 @@ public class GroupHelper extends HelperBase{
     click(By.linkText("group page"));
   }
 
-  public void submitGroupCreation() {
+  public void submitCreation() {
     click(By.name("submit"));
   }
 
@@ -30,46 +30,38 @@ public class GroupHelper extends HelperBase{
     type(By.name("group_footer"), groupData.getFooter());
   }
 
-  public void initGroupCreation() {
+  public void initCreation() {
     click(By.name("new"));
   }
 
-  public void deleteSelectedGroups() {
+  public void deleteSelected() {
     click(By.name("delete"));
   }
 
-  public void selectGroup(int index) {
+  public void select(int index) {
     wd.findElements(By.name("selected[]")).get(index).click();
   }
 
-  public void initGroupModification() {
+  public void initModification() {
     click(By.name("edit"));
   }
 
-  public void submitGroupModification() {
+  public void submitModification() {
     click(By.name("update"));
   }
 
-  public void createGroup(GroupData group) {
-    initGroupCreation();
+  public void create(GroupData group) {
+    initCreation();
     fillGroupForm(group);
-    submitGroupCreation();
+    submitCreation();
     returnToGroupPage();
   }
 
-  public boolean isThereAGroup() {
-    return isElementPresent(By.name("selected[]"));
-  }
-
-  public boolean isGroupExists(String name){
+  public boolean isExists(String name){
     return isElementPresent(By.xpath("//span[contains(.,'" + name + "')]"));
   }
 
-  public int getGroupCount() {
-    return wd.findElements(By.name("selected[]")).size();
-  }
-
-  public List<GroupData> getGroupList() {
+  public List<GroupData> list() {
     List<GroupData> groups = new ArrayList<GroupData>();
     List<WebElement> elements = wd.findElements(By.cssSelector("span.group"));
     for(WebElement el: elements){
@@ -80,17 +72,17 @@ public class GroupHelper extends HelperBase{
     return groups;
   }
 
-  public void modifyGroup(int index, GroupData group) {
-    selectGroup(index);
-    initGroupModification();
+  public void modify(int index, GroupData group) {
+    select(index);
+    initModification();
     fillGroupForm(group);
-    submitGroupModification();
+    submitModification();
     returnToGroupPage();
   }
 
-  public void deleteGroup(int index) {
-    selectGroup(index);
-    deleteSelectedGroups();
+  public void delete(int index) {
+    select(index);
+    deleteSelected();
     returnToGroupPage();
   }
 

@@ -15,21 +15,21 @@ public class ContactModificationTests extends TestBase {
 
   @Test(enabled = false)
   public void testContactModification() {
-    app.getNavigationHelper().gotoToHomePage();
-    if (!app.getContactHelper().isThereAContact()) {
-      ContactData data = app.getContactHelper().generate(null);
-      app.getContactHelper().createContact(data);
-      app.getNavigationHelper().gotoToHomePage();
+    app.goTo().gotoToHomePage();
+    if (!app.contact().isThereAContact()) {
+      ContactData data = app.contact().generate(null);
+      app.contact().createContact(data);
+      app.goTo().gotoToHomePage();
     }
-    List<ContactData> before = app.getContactHelper().getGontactsList();
-    app.getContactHelper().initContactModificationById(before.size() - 1);
-    ContactData data = app.getContactHelper().generate();
+    List<ContactData> before = app.contact().getGontactsList();
+    app.contact().initContactModificationById(before.size() - 1);
+    ContactData data = app.contact().generate();
     data.setId(before.get(before.size() - 1).getId());
-    app.getContactHelper().fillContactForm(data, false);
-    app.getContactHelper().submitContactUpdate();
+    app.contact().fillContactForm(data, false);
+    app.contact().submitContactUpdate();
 
-    app.getNavigationHelper().gotoToHomePage();
-    List<ContactData> after = app.getContactHelper().getGontactsList();
+    app.goTo().gotoToHomePage();
+    List<ContactData> after = app.contact().getGontactsList();
     Assert.assertEquals(after.size(), before.size());
 
     before.remove(before.size() - 1);
