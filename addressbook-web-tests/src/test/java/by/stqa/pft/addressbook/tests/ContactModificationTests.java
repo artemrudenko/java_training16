@@ -5,38 +5,30 @@
 package by.stqa.pft.addressbook.tests;
 
 import by.stqa.pft.addressbook.model.ContactData;
-import org.testng.Assert;
+import by.stqa.pft.addressbook.model.Contacts;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import java.util.Comparator;
-import java.util.List;
+import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.MatcherAssert.*;
+
 
 public class ContactModificationTests extends TestBase {
-
-  @Test(enabled = true)
-  public void testContactModification() {
-    app.goTo().gotoToHomePage();
-    if (!app.contact().isThereAContact()) {
-      ContactData data = app.contact().generate(null);
-      app.contact().createContact(data);
-      app.goTo().gotoToHomePage();
+  @BeforeMethod
+  public void ensurePreconditions() {
+    if(app.contact().all().size() == 0){
+      app.contact().create(app.contact().generate(null));
     }
-    List<ContactData> before = app.contact().getGontactsList();
-    app.contact().initContactModificationById(before.size() - 1);
-    ContactData data = app.contact().generate();
-    data.setId(before.get(before.size() - 1).getId());
-    app.contact().fillContactForm(data, false);
-    app.contact().submitContactUpdate();
+  }
 
-    app.goTo().gotoToHomePage();
-    List<ContactData> after = app.contact().getGontactsList();
-    Assert.assertEquals(after.size(), before.size());
-
-    before.remove(before.size() - 1);
-    before.add(data);
-    Comparator<? super ContactData> byId = Comparator.comparingInt(ContactData::getId);
-    before.sort(byId);
-    after.sort(byId);
-    Assert.assertEquals(before, after);
+  @Test
+  public void testContactModification() {
+    Contacts before = app.contact().all();
+    ContactData toUpdate = before.iterator().next();
+    ContactData data = app.contact().generate().withId(toUpdate.getId());
+    app.contact().update(data);
+    Contacts after = app.contact().all();
+    assertThat(after.size(), equalTo(before.size()));
+    assertThat(after, equalTo(before.withModified(data)));
   }
 }

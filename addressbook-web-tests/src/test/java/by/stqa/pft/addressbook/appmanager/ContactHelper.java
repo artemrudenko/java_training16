@@ -1,6 +1,7 @@
 package by.stqa.pft.addressbook.appmanager;
 
 import by.stqa.pft.addressbook.model.ContactData;
+import by.stqa.pft.addressbook.model.Contacts;
 import io.codearte.jfairy.Fairy;
 import io.codearte.jfairy.producer.company.Company;
 import io.codearte.jfairy.producer.person.Address;
@@ -10,7 +11,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static io.codearte.jfairy.producer.person.PersonProperties.withCompany;
@@ -24,17 +24,52 @@ public class ContactHelper extends HelperBase{
     super(wd);
   }
 
-  public void submitContactCreation() {
-    click(By.name("submit"));
-    waitHomePageLoad();
+  public Contacts all() {
+    Contacts contacts = new Contacts();
+    List<WebElement> rows = wd.findElements(By.cssSelector("tr[name=entry]"));
+    for(WebElement row: rows){
+      int id = Integer.parseInt(row.findElement(By.cssSelector("input[name='selected[]']")).getAttribute("value"));
+      String lastname = row.findElement(By.cssSelector("td:nth-child(2)")).getText();
+      String firstname = row.findElement(By.cssSelector("td:nth-child(3)")).getText();
+      String address = row.findElement(By.cssSelector("td:nth-child(4)")).getText();
+      contacts.add(new ContactData().withId(id).withFirstname(firstname).withLastname(lastname).withAddress(address));
+    }
+    return contacts;
   }
 
-  public void submitContactUpdate() {
-    click(By.name("update"));
-    waitHomePageLoad();
+  public ContactData generate(){
+    Fairy fairy = Fairy.create();
+    Company company = fairy.company();
+    Person person = fairy.person(withCompany(company));
+    return new ContactData()
+            .withFirstname(person.getFirstName())
+            .withLastname(person.getLastName())
+            .withAddress(person.getAddress().getStreet());
   }
 
-  public void fillContactForm(ContactData contactData, boolean creation) {
+  public ContactData generate(String group){
+    Fairy fairy = Fairy.create();
+    Company company = fairy.company();
+    Person person = fairy.person(withCompany(company));
+    Address address = person.getAddress();
+    return new ContactData().withFirstname(person.getFirstName())
+            .withMiddlename(person.getMiddleName())
+            .withLastname(person.getLastName())
+            .withNickname(person.getFullName())
+            .withTitle((person.getSex() == Person.Sex.MALE) ? "Mr." : "Ms.")
+            .withCompany(person.getCompany().getName())
+            .withAddress(address.getStreet())
+            .withMobile(person.getTelephoneNumber())
+            .withEmail(person.getEmail())
+            .withHomepage(person.getEmail())
+            .withBirthday("2-May-2001")
+            .withAnniversary("10-September-2021")
+            .withGroup(group)
+            .withAddress2(person.getAddress().getAddressLine2())
+            .withNotes("Some notes about: " + person.getNationalIdentificationNumber());
+  }
+
+  public void fillForm(ContactData contactData, boolean creation) {
     type(By.name("firstname"), contactData.getFirstname());
     type(By.name("middlename"), contactData.getMiddlename());
     type(By.name("lastname"), contactData.getLastname());
@@ -75,83 +110,62 @@ public class ContactHelper extends HelperBase{
     type(By.name("notes"), contactData.getNotes());
   }
 
-  public void initContactCreation() {
+  public void selectById(int id){
+    wd.findElement(By.cssSelector("input[value='"+ id + "'")).click();
+  }
+
+  public void initCreation() {
     click(By.linkText("add new"));
   }
 
-  public void selectContact(String text){
-    clickTableElement(By.id("maintable"), text, By.name("selected[]"));
-  }
-
-  public void selectContactById(int index){
-    wd.findElement(By.id("maintable")).findElements(By.name("selected[]")).get(index).click();
-  }
-
-  public String[] getContacts(){
-    return getTableRowsText(By.id("maintable"));
-  }
-
-  public void initContactModification(String text){
-    clickTableElement(By.id("maintable"), text, By.cssSelector("a img[title='Edit']"));
-  }
-
-  public void initContactModificationById(int index){
-    wd.findElement(By.id("maintable")).findElements(By.cssSelector("a img[title='Edit']")).get(index).click();
-  }
-
-  public void deleteSelectedContacts(boolean confirm){
-    click(By.cssSelector("input[value='Delete']"));
-    closeAlert(confirm);
+  public void submitCreation() {
+    click(By.name("submit"));
     waitHomePageLoad();
+  }
+
+  public void submitUpdate() {
+    click(By.name("update"));
+    waitHomePageLoad();
+  }
+
+  public void initModificationById(int id){
+    wd.findElement(By.xpath("//img[@title='Edit' and ancestor::tr[.//input[@id='" + id + "']]]")).click();
   }
 
   private void waitHomePageLoad() {
     waitElementVisible(By.id("maintable"));
   }
 
-  public ContactData generate(){
-    Fairy fairy = Fairy.create();
-    Company company = fairy.company();
-    Person person = fairy.person(withCompany(company));
-    return new ContactData(person.getFirstName(), person.getLastName(), person.getAddress().getStreet());
-  }
-
-  public ContactData generate(String group){
-    Fairy fairy = Fairy.create();
-    Company company = fairy.company();
-    Person person = fairy.person(withCompany(company));
-    Address address = person.getAddress();
-    return new ContactData(person.getFirstName(), person.getMiddleName(), person.getLastName(),
-            person.getFullName(), (person.getSex() == Person.Sex.MALE) ? "Mr." : "Ms.", person.getCompany().getName(),
-            address.getStreet(), address.getAddressLine1(), person.getTelephoneNumber(), person.getTelephoneNumber(),
-            person.getTelephoneNumber(), person.getEmail(), person.getCompanyEmail(), person.getEmail(),
-            person.getEmail(), "2-May-2001", "10-September-2021", group,
-            person.getAddress().getAddressLine2(), person.getTelephoneNumber(),
-            "Some notes about: " + person.getNationalIdentificationNumber());
-  }
-
   public boolean isThereAContact(){
     return isElementPresent(By.cssSelector("#maintable [name='selected[]']"));
   }
 
-  public void createContact(ContactData data){
-    initContactCreation();
-    fillContactForm(data, true);
-    submitContactCreation();
+  public void create(ContactData data){
+    initCreation();
+    fillForm(data, true);
+    submitCreation();
   }
 
-  public List<ContactData> getGontactsList() {
-    List<ContactData> contacts = new ArrayList<>();
-    List<WebElement> rows = wd.findElements(By.cssSelector("tr[name=entry]"));
-    for(WebElement row: rows){
-      int id = Integer.parseInt(row.findElement(By.cssSelector("input[name='selected[]']")).getAttribute("value"));
-      String lastname = row.findElement(By.cssSelector("td:nth-child(2)")).getText();
-      String firstname = row.findElement(By.cssSelector("td:nth-child(3)")).getText();
-      String address = row.findElement(By.cssSelector("td:nth-child(4)")).getText();
-      contacts.add(new ContactData(id, firstname, lastname, address));
-    }
-    return contacts;
-
-
+  public void update(ContactData data){
+    initModificationById(data.getId());
+    fillForm(data, false);
+    submitUpdate();
   }
+
+  public void delete(ContactData toRemove, boolean confirm) {
+    selectById(toRemove.getId());
+    deleteSelected(confirm);
+  }
+
+  public void deleteSelected(boolean confirm){
+    click(By.cssSelector("input[value='Delete']"));
+    closeAlert(confirm);
+    waitHomePageLoad();
+  }
+
+  public ContactHelper deleteAll(){
+    wd.findElement(By.id("MassCB")).click();
+    return this;
+  }
+
 }
