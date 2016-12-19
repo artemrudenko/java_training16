@@ -13,9 +13,9 @@ public class ContactData {
   private String title = null;
   private String company = null;
   private String address;
-  private String home = null;
-  private String mobile = null;
-  private String work = null;
+  private String homePhone = null;
+  private String mobilePhone = null;
+  private String workPhone = null;
   private String fax = null;
   private String email = null;
   private String email2 = null;
@@ -68,18 +68,18 @@ public class ContactData {
     return this;
   }
 
-  public ContactData withHome(String home) {
-    this.home = home;
+  public ContactData withHomePhone(String home) {
+    this.homePhone = home;
     return this;
   }
 
-  public ContactData withMobile(String mobile) {
-    this.mobile = mobile;
+  public ContactData withMobilePhone(String mobile) {
+    this.mobilePhone = mobile;
     return this;
   }
 
-  public ContactData withWork(String work) {
-    this.work = work;
+  public ContactData withWorkPhone(String work) {
+    this.workPhone = work;
     return this;
   }
 
@@ -170,16 +170,16 @@ public class ContactData {
     return address;
   }
 
-  public String getHome() {
-    return home;
+  public String getHomePhone() {
+    return homePhone;
   }
 
-  public String getMobile() {
-    return mobile;
+  public String getMobilePhone() {
+    return mobilePhone;
   }
 
-  public String getWork() {
-    return work;
+  public String getWorkPhone() {
+    return workPhone;
   }
 
   public String getFax() {

@@ -20,7 +20,7 @@ public class NavigationHelper extends HelperBase{
     }
     click(By.linkText("groups"));
   }
-  public void gotoToHomePage() {
+  public void homePage() {
     if(isElementPresent(By.id("maintable"))){
       return;
     }

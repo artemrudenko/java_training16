@@ -35,7 +35,16 @@ public class ContactHelper extends HelperBase{
       String lastname = row.findElement(By.cssSelector("td:nth-child(2)")).getText();
       String firstname = row.findElement(By.cssSelector("td:nth-child(3)")).getText();
       String address = row.findElement(By.cssSelector("td:nth-child(4)")).getText();
-      contactCache.add(new ContactData().withId(id).withFirstname(firstname).withLastname(lastname).withAddress(address));
+      String[] emails = row.findElement(By.cssSelector("td:nth-child(5)")).getText().split("\n");
+      String[] phones = row.findElement(By.cssSelector("td:nth-child(6)")).getText().split("\n");
+      contactCache.add(new ContactData()
+              .withId(id)
+              .withFirstname(firstname)
+              .withLastname(lastname)
+              .withAddress(address)
+              .withHomePhone(phones[0])
+              .withMobilePhone(phones[1])
+              .withWorkPhone(phones[2]));
     }
     return new Contacts(contactCache);
   }
@@ -68,7 +77,9 @@ public class ContactHelper extends HelperBase{
             .withTitle((person.getSex() == Person.Sex.MALE) ? "Mr." : "Ms.")
             .withCompany(person.getCompany().getName())
             .withAddress(address.getStreet())
-            .withMobile(person.getTelephoneNumber())
+            .withHomePhone(person.getTelephoneNumber())
+            .withWorkPhone(fairy.person().getTelephoneNumber())
+            .withMobilePhone(fairy.person().getTelephoneNumber())
             .withEmail(person.getEmail())
             .withHomepage(person.getEmail())
             .withBirthday("2-May-2001")
@@ -86,9 +97,9 @@ public class ContactHelper extends HelperBase{
     type(By.name("title"), contactData.getTitle());
     type(By.name("company"), contactData.getCompany());
     type(By.name("address"), contactData.getAddress());
-    type(By.name("home"), contactData.getHome());
-    type(By.name("mobile"), contactData.getMobile());
-    type(By.name("work"), contactData.getWork());
+    type(By.name("home"), contactData.getHomePhone());
+    type(By.name("mobile"), contactData.getMobilePhone());
+    type(By.name("work"), contactData.getWorkPhone());
     type(By.name("fax"), contactData.getFax());
     type(By.name("email"), contactData.getEmail());
     type(By.name("email2"), contactData.getEmail2());
@@ -140,7 +151,7 @@ public class ContactHelper extends HelperBase{
   }
 
   public void initModificationById(int id){
-    wd.findElement(By.xpath("//img[@title='Edit' and ancestor::tr[.//input[@id='" + id + "']]]")).click();
+    wd.findElement(By.xpath(String.format("//img[@title='Edit' and ancestor::tr[.//input[@id='%s']]]", id))).click();
   }
 
   private void waitHomePageLoad() {
@@ -181,4 +192,14 @@ public class ContactHelper extends HelperBase{
     return this;
   }
 
+  public ContactData infoFromEditForm(ContactData contact) {
+    initModificationById(contact.getId());
+    return new ContactData()
+            .withId(contact.getId())
+            .withLastname(wd.findElement(By.name("lastname")).getAttribute("value"))
+            .withFirstname(wd.findElement(By.name("firstname")).getAttribute("value"))
+            .withHomePhone(wd.findElement(By.name("home")).getAttribute("value"))
+            .withMobilePhone(wd.findElement(By.name("mobile")).getAttribute("value"))
+            .withWorkPhone(wd.findElement(By.name("work")).getAttribute("value"));
+  }
 }
