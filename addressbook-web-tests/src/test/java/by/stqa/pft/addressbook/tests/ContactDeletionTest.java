@@ -10,7 +10,7 @@ import org.testng.annotations.Test;
 import java.util.List;
 
 public class ContactDeletionTest extends TestBase{
-  @Test
+  @Test(enabled = false)
   public void testNotConfirmContactDeletion(){
     app.getNavigationHelper().gotoToHomePage();
     if(!app.getContactHelper().isThereAContact()){
@@ -26,7 +26,7 @@ public class ContactDeletionTest extends TestBase{
     Assert.assertEquals(before, after);
   }
 
-  @Test
+  @Test(enabled = false)
   public void testConfirmSingleContactDeletion(){
     app.getNavigationHelper().gotoToHomePage();
     if(!app.getContactHelper().isThereAContact()){

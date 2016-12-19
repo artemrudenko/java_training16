@@ -14,7 +14,7 @@ import java.util.List;
 
 public class ContactCreationTests extends TestBase {
 
-  @Test
+  @Test(enabled = false)
   public void testContactCreation() {
     List<ContactData> before = app.getContactHelper().getGontactsList();
     ContactData data = app.getContactHelper().generate();
@@ -30,7 +30,7 @@ public class ContactCreationTests extends TestBase {
     Assert.assertEquals(before, after);
   }
 
-  @Test
+  @Test(enabled = false)
   public void testFullContactCreation() {
     List<ContactData> before = app.getContactHelper().getGontactsList();
     ContactData data = app.getContactHelper().generate(null);
