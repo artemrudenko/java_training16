@@ -25,17 +25,26 @@ public class ContactHelper extends HelperBase{
   }
 
   public Contacts all() {
-    Contacts contacts = new Contacts();
+    if (contactCache != null){
+      return new Contacts(contactCache);
+    }
+    contactCache = new Contacts();
     List<WebElement> rows = wd.findElements(By.cssSelector("tr[name=entry]"));
     for(WebElement row: rows){
       int id = Integer.parseInt(row.findElement(By.cssSelector("input[name='selected[]']")).getAttribute("value"));
       String lastname = row.findElement(By.cssSelector("td:nth-child(2)")).getText();
       String firstname = row.findElement(By.cssSelector("td:nth-child(3)")).getText();
       String address = row.findElement(By.cssSelector("td:nth-child(4)")).getText();
-      contacts.add(new ContactData().withId(id).withFirstname(firstname).withLastname(lastname).withAddress(address));
+      contactCache.add(new ContactData().withId(id).withFirstname(firstname).withLastname(lastname).withAddress(address));
     }
-    return contacts;
+    return new Contacts(contactCache);
   }
+
+  public int count() {
+    return wd.findElements(By.cssSelector("tr[name=entry]")).size();
+  }
+
+  private Contacts contactCache = null;
 
   public ContactData generate(){
     Fairy fairy = Fairy.create();
@@ -121,11 +130,13 @@ public class ContactHelper extends HelperBase{
   public void submitCreation() {
     click(By.name("submit"));
     waitHomePageLoad();
+    contactCache = null;
   }
 
   public void submitUpdate() {
     click(By.name("update"));
     waitHomePageLoad();
+    contactCache = null;
   }
 
   public void initModificationById(int id){
@@ -161,10 +172,12 @@ public class ContactHelper extends HelperBase{
     click(By.cssSelector("input[value='Delete']"));
     closeAlert(confirm);
     waitHomePageLoad();
+    contactCache = null;
   }
 
   public ContactHelper deleteAll(){
     wd.findElement(By.id("MassCB")).click();
+    contactCache = null;
     return this;
   }
 

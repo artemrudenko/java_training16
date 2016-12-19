@@ -6,9 +6,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Created by artemr on 11/25/2016.
@@ -20,6 +18,10 @@ public class GroupHelper extends HelperBase{
 
   public boolean isThereAGroup(){
     return isElementPresent(By.name("selected[]"));
+  }
+
+  public int count(){
+    return wd.findElements(By.name("selected[]")).size();
   }
 
   private Groups groupCache = null;
