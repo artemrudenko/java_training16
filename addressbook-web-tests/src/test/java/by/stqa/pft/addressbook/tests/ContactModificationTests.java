@@ -13,7 +13,7 @@ import java.util.List;
 
 public class ContactModificationTests extends TestBase {
 
-  @Test(enabled = false)
+  @Test(enabled = true)
   public void testContactModification() {
     app.goTo().gotoToHomePage();
     if (!app.contact().isThereAContact()) {
