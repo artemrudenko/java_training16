@@ -59,19 +59,12 @@ public class ContactHelper extends HelperBase{
 
   private Contacts contactCache = null;
 
-  private String mergeStrings(String[] strings) {
-    return Stream.of(strings)
-            .filter((s)-> ! s.equals(""))
-            .collect(joining("\n"));
-  }
-
   public ContactData generate(){
     Fairy fairy = Fairy.create();
     Company company = fairy.company();
     Person person = fairy.person(withCompany(company));
     Address address = person.getAddress();
-    String[] parts = {address.getCity(), address.getPostalCode(), address.getAddressLine1()};
-    String fullAddress = mergeStrings(parts);
+    String fullAddress = address.getCity() + "\n" + address.getPostalCode() + "\n" + address.getAddressLine1();
     return new ContactData()
             .withFirstname(person.getFirstName())
             .withLastname(person.getLastName())
@@ -89,8 +82,7 @@ public class ContactHelper extends HelperBase{
     Company company = fairy.company();
     Person person = fairy.person(withCompany(company));
     Address address = person.getAddress();
-    String[] parts = {address.getCity(), address.getPostalCode(), address.getAddressLine1()};
-    String fullAddress = mergeStrings(parts);
+    String fullAddress = address.getCity() + "\n" + address.getPostalCode() + "\n" + address.getAddressLine1();
     return new ContactData().withFirstname(person.getFirstName())
             .withMiddlename(person.getMiddleName())
             .withLastname(person.getLastName())
@@ -212,6 +204,7 @@ public class ContactHelper extends HelperBase{
 
   public ContactHelper deleteAll(){
     wd.findElement(By.id("MassCB")).click();
+    deleteSelected(true);
     contactCache = null;
     return this;
   }
@@ -221,13 +214,31 @@ public class ContactHelper extends HelperBase{
     return new ContactData()
             .withId(contact.getId())
             .withLastname(wd.findElement(By.name("lastname")).getAttribute("value"))
+            .withMiddlename(wd.findElement(By.name("middlename")).getAttribute("value"))
             .withFirstname(wd.findElement(By.name("firstname")).getAttribute("value"))
+            .withNickname(wd.findElement(By.name("nickname")).getAttribute("value"))
+            .withCompany(wd.findElement(By.name("company")).getAttribute("value"))
+            .withTitle(wd.findElement(By.name("title")).getAttribute("value"))
             .withHomePhone(wd.findElement(By.name("home")).getAttribute("value"))
             .withMobilePhone(wd.findElement(By.name("mobile")).getAttribute("value"))
             .withWorkPhone(wd.findElement(By.name("work")).getAttribute("value"))
             .withEmail(wd.findElement(By.name("email")).getAttribute("value"))
             .withEmail2(wd.findElement(By.name("email2")).getAttribute("value"))
             .withEmail3(wd.findElement(By.name("email3")).getAttribute("value"))
-            .withAddress(wd.findElement(By.name("address")).getAttribute("value"));
+            .withAddress(wd.findElement(By.name("address")).getAttribute("value"))
+            .withHomepage(wd.findElement(By.name("homepage")).getAttribute("value"));
   }
+
+  public void detailsById(int id){
+    By locator = By.xpath(String.format("//img[@title='Details' and ancestor::tr[.//input[@id='%s']]]", id));
+    WebElement content = wd.findElement(By.id("content"));
+    wd.findElement(locator).click();
+    wait.until(ExpectedConditions.stalenessOf(content));
+  }
+
+  public String infoFromDetailsForm(ContactData contact) {
+    detailsById(contact.getId());
+    return wd.findElement(By.id("content")).getText();
+  }
+
 }
