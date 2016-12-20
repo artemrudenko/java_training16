@@ -7,26 +7,28 @@ package by.stqa.pft.addressbook.model;
 public class ContactData {
   private int id = Integer.MAX_VALUE;
   private String firstname;
-  private String middlename = null;
+  private String middlename;
   private String lastname;
-  private String nickname = null;
-  private String title = null;
-  private String company = null;
+  private String nickname;
+  private String title;
+  private String company;
   private String address;
-  private String homePhone = null;
-  private String mobilePhone = null;
-  private String workPhone = null;
-  private String fax = null;
-  private String email = null;
-  private String email2 = null;
-  private String email3 = null;
-  private String homepage = null;
-  private String birthday = null;
-  private String anniversary = null;
-  private String group = null;
-  private String address2 = null;
-  private String phone2 = null;
-  private String notes = null;
+  private String homePhone;
+  private String mobilePhone;
+  private String workPhone;
+  private String fax;
+  private String email;
+  private String email2;
+  private String email3;
+  private String homepage;
+  private String birthday;
+  private String anniversary;
+  private String group;
+  private String address2;
+  private String phone2;
+  private String notes;
+  private String allPhones;
+  private String allEmails;
 
   public ContactData withId(int id) {
     this.id = id;
@@ -226,6 +228,14 @@ public class ContactData {
     return notes;
   }
 
+  public String getAllPhones() {
+    return allPhones;
+  }
+
+  public String getAllEmails() {
+    return allEmails;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;
@@ -258,4 +268,13 @@ public class ContactData {
             '}';
   }
 
+  public ContactData withAllPhones(String allPhones) {
+    this.allPhones = allPhones;
+    return this;
+  }
+
+  public ContactData withAllEmails(String allEmails) {
+    this.allEmails = allEmails;
+    return this;
+  }
 }

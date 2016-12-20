@@ -9,11 +9,16 @@ import io.codearte.jfairy.producer.person.Person;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static io.codearte.jfairy.producer.person.PersonProperties.withCompany;
+import static java.util.stream.Collectors.*;
 
 /**
  * Created by artemr on 11/25/2016.
@@ -35,16 +40,15 @@ public class ContactHelper extends HelperBase{
       String lastname = row.findElement(By.cssSelector("td:nth-child(2)")).getText();
       String firstname = row.findElement(By.cssSelector("td:nth-child(3)")).getText();
       String address = row.findElement(By.cssSelector("td:nth-child(4)")).getText();
-      String[] emails = row.findElement(By.cssSelector("td:nth-child(5)")).getText().split("\n");
-      String[] phones = row.findElement(By.cssSelector("td:nth-child(6)")).getText().split("\n");
+      String allEmails = row.findElement(By.cssSelector("td:nth-child(5)")).getText();
+      String allPhones = row.findElement(By.cssSelector("td:nth-child(6)")).getText();
       contactCache.add(new ContactData()
               .withId(id)
               .withFirstname(firstname)
               .withLastname(lastname)
               .withAddress(address)
-              .withHomePhone(phones[0])
-              .withMobilePhone(phones[1])
-              .withWorkPhone(phones[2]));
+              .withAllPhones(allPhones)
+              .withAllEmails(allEmails));
     }
     return new Contacts(contactCache);
   }
@@ -55,14 +59,29 @@ public class ContactHelper extends HelperBase{
 
   private Contacts contactCache = null;
 
+  private String mergeStrings(String[] strings) {
+    return Stream.of(strings)
+            .filter((s)-> ! s.equals(""))
+            .collect(joining("\n"));
+  }
+
   public ContactData generate(){
     Fairy fairy = Fairy.create();
     Company company = fairy.company();
     Person person = fairy.person(withCompany(company));
+    Address address = person.getAddress();
+    String[] parts = {address.getCity(), address.getPostalCode(), address.getAddressLine1()};
+    String fullAddress = mergeStrings(parts);
     return new ContactData()
             .withFirstname(person.getFirstName())
             .withLastname(person.getLastName())
-            .withAddress(person.getAddress().getStreet());
+            .withAddress(fullAddress)
+            .withHomePhone(person.getTelephoneNumber())
+            .withWorkPhone(fairy.person().getTelephoneNumber())
+            .withMobilePhone(fairy.person().getTelephoneNumber())
+            .withEmail(person.getEmail())
+            .withEmail2(fairy.person().getEmail())
+            .withEmail3(fairy.person().getEmail());
   }
 
   public ContactData generate(String group){
@@ -70,13 +89,15 @@ public class ContactHelper extends HelperBase{
     Company company = fairy.company();
     Person person = fairy.person(withCompany(company));
     Address address = person.getAddress();
+    String[] parts = {address.getCity(), address.getPostalCode(), address.getAddressLine1()};
+    String fullAddress = mergeStrings(parts);
     return new ContactData().withFirstname(person.getFirstName())
             .withMiddlename(person.getMiddleName())
             .withLastname(person.getLastName())
             .withNickname(person.getFullName())
             .withTitle((person.getSex() == Person.Sex.MALE) ? "Mr." : "Ms.")
             .withCompany(person.getCompany().getName())
-            .withAddress(address.getStreet())
+            .withAddress(fullAddress)
             .withHomePhone(person.getTelephoneNumber())
             .withWorkPhone(fairy.person().getTelephoneNumber())
             .withMobilePhone(fairy.person().getTelephoneNumber())
@@ -151,7 +172,10 @@ public class ContactHelper extends HelperBase{
   }
 
   public void initModificationById(int id){
-    wd.findElement(By.xpath(String.format("//img[@title='Edit' and ancestor::tr[.//input[@id='%s']]]", id))).click();
+    By locator = By.xpath(String.format("//img[@title='Edit' and ancestor::tr[.//input[@id='%s']]]", id));
+    wait.until(ExpectedConditions.presenceOfElementLocated(locator));
+    wd.findElement(locator).click();
+    wait.until(ExpectedConditions.presenceOfElementLocated(By.name("update")));
   }
 
   private void waitHomePageLoad() {
@@ -200,6 +224,10 @@ public class ContactHelper extends HelperBase{
             .withFirstname(wd.findElement(By.name("firstname")).getAttribute("value"))
             .withHomePhone(wd.findElement(By.name("home")).getAttribute("value"))
             .withMobilePhone(wd.findElement(By.name("mobile")).getAttribute("value"))
-            .withWorkPhone(wd.findElement(By.name("work")).getAttribute("value"));
+            .withWorkPhone(wd.findElement(By.name("work")).getAttribute("value"))
+            .withEmail(wd.findElement(By.name("email")).getAttribute("value"))
+            .withEmail2(wd.findElement(By.name("email2")).getAttribute("value"))
+            .withEmail3(wd.findElement(By.name("email3")).getAttribute("value"))
+            .withAddress(wd.findElement(By.name("address")).getAttribute("value"));
   }
 }

@@ -6,6 +6,7 @@ package by.stqa.pft.addressbook.tests;
 
 import by.stqa.pft.addressbook.model.GroupData;
 import by.stqa.pft.addressbook.model.Groups;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -13,9 +14,13 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 
 public class GroupCreationTests extends TestBase {
+  @BeforeMethod
+  public void ensurePreconditions() {
+    app.goTo().groupPage();
+  }
+
   @Test
   public void testGroupCreation() {
-    app.goTo().groupPage();
     Groups before = app.group().all();
     GroupData group = new GroupData().withName("MyGroup1");
     app.group().create(group);
@@ -27,7 +32,6 @@ public class GroupCreationTests extends TestBase {
 
   @Test
   public void testBadGroupCreation() {
-    app.goTo().groupPage();
     Groups before = app.group().all();
     GroupData group = new GroupData().withName("MyGroup1'");
     app.group().create(group);
