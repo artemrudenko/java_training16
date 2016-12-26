@@ -16,6 +16,7 @@
     <orderEntry type="library" name="Gradle: org.hamcrest:java-hamcrest:2.0.0.0" level="project" />
     <orderEntry type="library" name="Gradle: com.beust:jcommander:1.58" level="project" />
     <orderEntry type="library" name="Gradle: com.thoughtworks.xstream:xstream:1.4.9" level="project" />
+    <orderEntry type="library" name="Gradle: com.google.code.gson:gson:2.8.0" level="project" />
     <orderEntry type="library" name="Gradle: org.seleniumhq.selenium:selenium-chrome-driver:2.53.1" level="project" />
     <orderEntry type="library" name="Gradle: org.seleniumhq.selenium:selenium-edge-driver:2.53.1" level="project" />
     <orderEntry type="library" name="Gradle: org.seleniumhq.selenium:htmlunit-driver:2.21" level="project" />
@@ -47,7 +48,6 @@
     <orderEntry type="library" name="Gradle: org.javassist:javassist:3.18.2-GA" level="project" />
     <orderEntry type="library" name="Gradle: com.google.code.findbugs:annotations:2.0.1" level="project" />
     <orderEntry type="library" name="Gradle: cglib:cglib-nodep:2.1_3" level="project" />
-    <orderEntry type="library" name="Gradle: com.google.code.gson:gson:2.3.1" level="project" />
     <orderEntry type="library" name="Gradle: org.seleniumhq.selenium:selenium-api:2.53.1" level="project" />
     <orderEntry type="library" name="Gradle: xalan:xalan:2.7.2" level="project" />
     <orderEntry type="library" name="Gradle: org.apache.httpcomponents:httpmime:4.5.2" level="project" />
