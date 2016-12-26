@@ -1,0 +1,35 @@
+[
+  {
+    "firstname": "Lucas",
+    "lastname": "Mays",
+    "address": "Washington\n27691\n20 Highland Place APT 269",
+    "homePhone": "097-123-8480",
+    "mobilePhone": "692-915-5098",
+    "workPhone": "126-416-5554",
+    "email": "lucasmays@gmail.com",
+    "email2": "kylie.bell@gmail.com",
+    "email3": "taylormorrison@gmail.com"
+  },
+  {
+    "firstname": "Jeremiah",
+    "lastname": "Burt",
+    "address": "New York\n83487\n78 Atkins Avenue",
+    "homePhone": "552-826-987",
+    "mobilePhone": "039-414-8319",
+    "workPhone": "042-505-1898",
+    "email": "burt@mail.com",
+    "email2": "brysonherman@gmail.com",
+    "email3": "alexa.mckinney@mail.com"
+  },
+  {
+    "firstname": "Natalie",
+    "lastname": "Adkins",
+    "address": "San Francisco\n17422\n130 Ford Street",
+    "homePhone": "326-416-131",
+    "mobilePhone": "889-479-5104",
+    "workPhone": "315-575-832",
+    "email": "adkins@yahoo.com",
+    "email2": "piper.wilkerson@yahoo.com",
+    "email3": "mcmillan@yahoo.com"
+  }
+]

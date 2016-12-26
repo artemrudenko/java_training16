@@ -71,11 +71,11 @@ public class GroupDataGenerator {
 
   private void saveAsCsv(List<GroupData> groups, File file) throws IOException {
     System.out.println(new File(".").getAbsolutePath());
-    Writer writter = new FileWriter(file);
+    Writer writer = new FileWriter(file);
     for(GroupData group: groups){
-      writter.write(String.format("%s;%s;%s\n", group.getName(), group.getHeader(), group.getFooter()));
+      writer.write(String.format("%s;%s;%s\n", group.getName(), group.getHeader(), group.getFooter()));
     }
-    writter.close();
+    writer.close();
   }
 
   private List<GroupData> generateGroups(int count) {

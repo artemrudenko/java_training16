@@ -1,0 +1,41 @@
+<list>
+  <contact>
+    <firstname>Alexandra</firstname>
+    <lastname>Beasley</lastname>
+    <address>Washington
+13180
+152 Tabor Court</address>
+    <homePhone>417-389-4128</homePhone>
+    <mobilePhone>587-199-4332</mobilePhone>
+    <workPhone>932-188-920</workPhone>
+    <email>alexandra.beasley@gmail.com</email>
+    <email2>khloewilliamson@mail.com</email2>
+    <email3>chase.whitney@gmail.com</email3>
+  </contact>
+  <contact>
+    <firstname>Bailey</firstname>
+    <lastname>Warren</lastname>
+    <address>San Francisco
+93384
+47 Herzi Street</address>
+    <homePhone>377-565-1312</homePhone>
+    <mobilePhone>327-801-5035</mobilePhone>
+    <workPhone>254-954-4782</workPhone>
+    <email>baileywarren@gmail.com</email>
+    <email2>morgan.beasley@mail.com</email2>
+    <email3>michaelmcmillan@yahoo.com</email3>
+  </contact>
+  <contact>
+    <firstname>Autumn</firstname>
+    <lastname>York</lastname>
+    <address>Washington
+68091
+131 Herzi Street APT 86</address>
+    <homePhone>686-138-2380</homePhone>
+    <mobilePhone>935-942-8367</mobilePhone>
+    <workPhone>074-665-531</workPhone>
+    <email>york@gmail.com</email>
+    <email2>dominicarnold@mail.com</email2>
+    <email3>noahvega@gmail.com</email3>
+  </contact>
+</list>
