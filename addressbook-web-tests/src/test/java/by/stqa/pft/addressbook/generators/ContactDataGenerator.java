@@ -90,7 +90,7 @@ public class ContactDataGenerator {
       Company company = fairy.company();
       Person person = fairy.person(withCompany(company));
       Address address = person.getAddress();
-      String fullAddress = address.getCity() + "\n" + address.getPostalCode() + "\n" + address.getAddressLine1();
+      String fullAddress = address.getCity() + "\r\n" + address.getPostalCode() + "\r\n" + address.getAddressLine1();
       contacts.add(new ContactData()
               .withFirstname(person.getFirstName())
               .withLastname(person.getLastName())

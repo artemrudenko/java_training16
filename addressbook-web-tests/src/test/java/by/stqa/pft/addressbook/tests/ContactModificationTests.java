@@ -16,20 +16,21 @@ import static org.hamcrest.MatcherAssert.*;
 public class ContactModificationTests extends TestBase {
   @BeforeMethod
   public void ensurePreconditions() {
-    app.goTo().homePage();
-    if(app.contact().all().size() == 0){
+    if(app.db().contacts().size() == 0){
+      app.goTo().homePage();
       app.contact().create(app.contact().generate());
     }
   }
 
   @Test
   public void testContactModification() {
-    Contacts before = app.contact().all();
+    app.goTo().homePage();
+    Contacts before = app.db().contacts();
     ContactData toUpdate = before.iterator().next();
     ContactData data = app.contact().generate().withId(toUpdate.getId());
     app.contact().update(data);
     assertThat(app.contact().count(), equalTo(before.size()));
-    Contacts after = app.contact().all();
+    Contacts after = app.db().contacts();
     assertThat(after, equalTo(before.withModified(data)));
   }
 }

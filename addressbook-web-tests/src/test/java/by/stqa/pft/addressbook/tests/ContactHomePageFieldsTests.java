@@ -16,14 +16,15 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class ContactHomePageFieldsTests extends TestBase{
   @BeforeMethod
   public void ensurePreconditions() {
-    app.goTo().homePage();
-    if(app.contact().all().size() == 0){
+    if(app.db().contacts().size() == 0){
+      app.goTo().homePage();
       app.contact().create(app.contact().generate());
     }
   }
 
   @Test
   public void testContactAddress(){
+    app.goTo().homePage();
     ContactData contact = app.contact().all().iterator().next();
     ContactData contactInfoFromEditForm = app.contact().infoFromEditForm(contact);
     assertThat(contact.getAddress(), equalTo(contactInfoFromEditForm.getAddress()));
@@ -31,6 +32,7 @@ public class ContactHomePageFieldsTests extends TestBase{
 
   @Test
   public void testContactEmails(){
+    app.goTo().homePage();
     ContactData contact = app.contact().all().iterator().next();
     ContactData contactInfoFromEditForm = app.contact().infoFromEditForm(contact);
     assertThat(contact.getAllEmails(), equalTo(mergeEmails(contactInfoFromEditForm)));
@@ -38,6 +40,7 @@ public class ContactHomePageFieldsTests extends TestBase{
 
   @Test
   public void testContactPhones(){
+    app.goTo().homePage();
     ContactData contact = app.contact().all().iterator().next();
     ContactData contactInfoFromEditForm = app.contact().infoFromEditForm(contact);
     assertThat(contact.getAllPhones(), equalTo(mergePhones(contactInfoFromEditForm)));

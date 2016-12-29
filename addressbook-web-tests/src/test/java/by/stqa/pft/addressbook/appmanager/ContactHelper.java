@@ -64,7 +64,7 @@ public class ContactHelper extends HelperBase{
     Company company = fairy.company();
     Person person = fairy.person(withCompany(company));
     Address address = person.getAddress();
-    String fullAddress = address.getCity() + "\n" + address.getPostalCode() + "\n" + address.getAddressLine1();
+    String fullAddress = address.getCity() + "\r\n" + address.getPostalCode() + "\r\n" + address.getAddressLine1();
     return new ContactData()
             .withFirstname(person.getFirstName())
             .withLastname(person.getLastName())
@@ -75,31 +75,6 @@ public class ContactHelper extends HelperBase{
             .withEmail(person.getEmail())
             .withEmail2(fairy.person().getEmail())
             .withEmail3(fairy.person().getEmail());
-  }
-
-  public ContactData generate(String group){
-    Fairy fairy = Fairy.create();
-    Company company = fairy.company();
-    Person person = fairy.person(withCompany(company));
-    Address address = person.getAddress();
-    String fullAddress = address.getCity() + "\n" + address.getPostalCode() + "\n" + address.getAddressLine1();
-    return new ContactData().withFirstname(person.getFirstName())
-            .withMiddlename(person.getMiddleName())
-            .withLastname(person.getLastName())
-            .withNickname(person.getFullName())
-            .withTitle((person.getSex() == Person.Sex.MALE) ? "Mr." : "Ms.")
-            .withCompany(person.getCompany().getName())
-            .withAddress(fullAddress)
-            .withHomePhone(person.getTelephoneNumber())
-            .withWorkPhone(fairy.person().getTelephoneNumber())
-            .withMobilePhone(fairy.person().getTelephoneNumber())
-            .withEmail(person.getEmail())
-            .withHomepage(person.getEmail())
-            .withBirthday("2-May-2001")
-            .withAnniversary("10-September-2021")
-            .withGroup(group)
-            .withAddress2(person.getAddress().getAddressLine2())
-            .withNotes("Some notes about: " + person.getNationalIdentificationNumber());
   }
 
   public void fillForm(ContactData contactData, boolean creation) {

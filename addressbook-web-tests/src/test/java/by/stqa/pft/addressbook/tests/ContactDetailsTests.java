@@ -19,14 +19,14 @@ public class ContactDetailsTests extends TestBase {
     app.goTo().homePage();
 //    Is better to uncomment next line once to remove all "broken" records and to add new clear one
     app.contact().deleteAll();
-    if (app.contact().all().size() == 0) {
-      app.contact().create(app.contact().generate());
-    }
+//    if (app.contact().all().size() == 0) {
+    app.contact().create(app.contact().generate());
+//    }
   }
 
   @Test
   public void testContactDetails() {
-    Contacts before = app.contact().all();
+    Contacts before = app.db().contacts();
     ContactData contact = before.iterator().next();
     ContactData contactInfoFromEditForm = app.contact().infoFromEditForm(contact);
     app.goTo().homePage();

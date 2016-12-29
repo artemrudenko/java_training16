@@ -68,43 +68,32 @@ public class ContactCreationTests extends TestBase {
 
   @Test(dataProvider = "validContactsFromXml")
   public void testContactCreationFromXml(ContactData data) {
-    Contacts before = app.contact().all();
+    Contacts before = app.db().contacts();
     app.contact().create(data);
     assertThat(app.contact().count(), equalTo(before.size() + 1));
-    Contacts after = app.contact().all();
+    Contacts after = app.db().contacts();
     assertThat(after, equalTo(
             before.withAdded(data.withId(after.stream().mapToInt((g) -> g.getId()).max().getAsInt()))));
   }
 
   @Test(dataProvider = "validContactsFromJson")
   public void testContactCreation(ContactData data) {
-    Contacts before = app.contact().all();
+    Contacts before = app.db().contacts();
     app.contact().create(data);
     assertThat(app.contact().count(), equalTo(before.size() + 1));
-    Contacts after = app.contact().all();
-    assertThat(after, equalTo(
-            before.withAdded(data.withId(after.stream().mapToInt((g) -> g.getId()).max().getAsInt()))));
-  }
-
-  @Test
-  public void testFullContactCreation() {
-    Contacts before = app.contact().all();
-    ContactData data = app.contact().generate(null);
-    app.contact().create(data);
-    assertThat(app.contact().count(), equalTo(before.size() + 1));
-    Contacts after = app.contact().all();
+    Contacts after = app.db().contacts();
     assertThat(after, equalTo(
             before.withAdded(data.withId(after.stream().mapToInt((g) -> g.getId()).max().getAsInt()))));
   }
 
   @Test
   public void testContactWPhoto(){
-    Contacts before = app.contact().all();
+    Contacts before = app.db().contacts();
     File photo = new File("src/test/resources/face.png");
     ContactData data = app.contact().generate().withPhoto(photo);
     app.contact().create(data);
     assertThat(app.contact().count(), equalTo(before.size() + 1));
-    Contacts after = app.contact().all();
+    Contacts after = app.db().contacts();
     assertThat(after, equalTo(
             before.withAdded(data.withId(after.stream().mapToInt((g) -> g.getId()).max().getAsInt()))));
   }
