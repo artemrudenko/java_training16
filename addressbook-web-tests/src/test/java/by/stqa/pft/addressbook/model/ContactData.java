@@ -11,22 +11,25 @@ import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.io.File;
+import java.util.HashSet;
+import java.util.Set;
 
 @XStreamAlias("contact")
 @Entity
-@Table(name="addressbook")
+@Table(name = "addressbook")
 public class ContactData {
   @XStreamOmitField
   @Id
-  @Column(name="id")
+  @Column(name = "id")
   private int id = Integer.MAX_VALUE;
+
   @Expose
-  @Column(name="firstname")
+  @Column(name = "firstname")
   private String firstname;
   @Transient
   private String middlename;
   @Expose
-  @Column(name="lastname")
+  @Column(name = "lastname")
   private String lastname;
   @Transient
   private String nickname;
@@ -35,44 +38,42 @@ public class ContactData {
   @Transient
   private String company;
   @Expose
-  @Column(name="address")
-  @Type(type="text")
+  @Column(name = "address")
+  @Type(type = "text")
   private String address;
   @Expose
-  @Column(name="home")
-  @Type(type="text")
+  @Column(name = "home")
+  @Type(type = "text")
   private String homePhone;
   @Expose
-  @Column(name="mobile")
-  @Type(type="text")
+  @Column(name = "mobile")
+  @Type(type = "text")
   private String mobilePhone;
   @Expose
-  @Column(name="work")
-  @Type(type="text")
+  @Column(name = "work")
+  @Type(type = "text")
   private String workPhone;
   @Transient
   private String fax;
   @Expose
-  @Column(name="email")
-  @Type(type="text")
+  @Column(name = "email")
+  @Type(type = "text")
   private String email;
   @Expose
-  @Column(name="email2")
-  @Type(type="text")
+  @Column(name = "email2")
+  @Type(type = "text")
   private String email2;
   @Expose
-  @Column(name="email3")
-  @Type(type="text")
+  @Column(name = "email3")
+  @Type(type = "text")
   private String email3;
-  @Column(name="homepage")
-  @Type(type="text")
+  @Column(name = "homepage")
+  @Type(type = "text")
   private String homepage;
   @Transient
   private String birthday;
   @Transient
   private String anniversary;
-  @Transient
-  private String group;
   @Transient
   private String address2;
   @Transient
@@ -84,65 +85,20 @@ public class ContactData {
   @Transient
   private String allEmails;
 
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
-
-    ContactData that = (ContactData) o;
-
-    if (id != that.id) return false;
-    if (firstname != null ? !firstname.equals(that.firstname) : that.firstname != null) return false;
-    if (lastname != null ? !lastname.equals(that.lastname) : that.lastname != null) return false;
-    if (address != null ? !address.equals(that.address) : that.address != null) return false;
-    if (homePhone != null ? !homePhone.equals(that.homePhone) : that.homePhone != null) return false;
-    if (mobilePhone != null ? !mobilePhone.equals(that.mobilePhone) : that.mobilePhone != null) return false;
-    if (workPhone != null ? !workPhone.equals(that.workPhone) : that.workPhone != null) return false;
-    if (email != null ? !email.equals(that.email) : that.email != null) return false;
-    if (email2 != null ? !email2.equals(that.email2) : that.email2 != null) return false;
-    return email3 != null ? email3.equals(that.email3) : that.email3 == null;
-  }
-
-  @Override
-  public int hashCode() {
-    int result = id;
-    result = 31 * result + (firstname != null ? firstname.hashCode() : 0);
-    result = 31 * result + (lastname != null ? lastname.hashCode() : 0);
-    result = 31 * result + (address != null ? address.hashCode() : 0);
-    result = 31 * result + (homePhone != null ? homePhone.hashCode() : 0);
-    result = 31 * result + (mobilePhone != null ? mobilePhone.hashCode() : 0);
-    result = 31 * result + (workPhone != null ? workPhone.hashCode() : 0);
-    result = 31 * result + (email != null ? email.hashCode() : 0);
-    result = 31 * result + (email2 != null ? email2.hashCode() : 0);
-    result = 31 * result + (email3 != null ? email3.hashCode() : 0);
-    return result;
-  }
-
-  @Override
-  public String toString() {
-    return "ContactData{" +
-            "id=" + id +
-            ", firstname='" + firstname + '\'' +
-            ", lastname='" + lastname + '\'' +
-            ", address='" + address + '\'' +
-            ", homePhone='" + homePhone + '\'' +
-            ", mobilePhone='" + mobilePhone + '\'' +
-            ", workPhone='" + workPhone + '\'' +
-            ", email='" + email + '\'' +
-            ", email2='" + email2 + '\'' +
-            ", email3='" + email3 + '\'' +
-            '}';
-  }
-
-  @Column(name="photo")
-  @Type(type="text")
-
+  @Column(name = "photo")
+  @Type(type = "text")
   private String photo;
+
+  @ManyToMany(fetch = FetchType.EAGER)
+  @JoinTable(name = "address_in_groups",
+          joinColumns = @JoinColumn(name = "id"),
+          inverseJoinColumns = @JoinColumn(name = "group_id"))
+  private Set<GroupData> groups = new HashSet<GroupData>();
 
   public File getPhoto() {
     try {
       return new File(photo);
-    }catch (Exception ex){
+    } catch (Exception ex) {
       return null;
     }
   }
@@ -242,11 +198,6 @@ public class ContactData {
     return this;
   }
 
-  public ContactData withGroup(String group) {
-    this.group = group;
-    return this;
-  }
-
   public ContactData withAddress2(String address2) {
     this.address2 = address2;
     return this;
@@ -322,6 +273,10 @@ public class ContactData {
     return email3;
   }
 
+  public Groups getGroups() {
+    return new Groups(groups);
+  }
+
   public String getHomepage() {
     return homepage;
   }
@@ -332,10 +287,6 @@ public class ContactData {
 
   public String getAnniversary() {
     return anniversary;
-  }
-
-  public String getGroup() {
-    return group;
   }
 
   public String getAddress2() {
@@ -358,6 +309,23 @@ public class ContactData {
     return allEmails;
   }
 
+  @Override
+  public String toString() {
+    return "ContactData{" +
+            "id=" + id +
+            ", firstname='" + firstname + '\'' +
+            ", lastname='" + lastname + '\'' +
+            ", address='" + address + '\'' +
+            ", homePhone='" + homePhone + '\'' +
+            ", mobilePhone='" + mobilePhone + '\'' +
+            ", workPhone='" + workPhone + '\'' +
+            ", email='" + email + '\'' +
+            ", email2='" + email2 + '\'' +
+            ", email3='" + email3 + '\'' +
+            ", groups=" + groups +
+            '}';
+  }
+
   public ContactData withAllPhones(String allPhones) {
     this.allPhones = allPhones;
     return this;
@@ -365,6 +333,48 @@ public class ContactData {
 
   public ContactData withAllEmails(String allEmails) {
     this.allEmails = allEmails;
+    return this;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+
+    ContactData that = (ContactData) o;
+
+    if (id != that.id) return false;
+    if (firstname != null ? !firstname.equals(that.firstname) : that.firstname != null) return false;
+    if (lastname != null ? !lastname.equals(that.lastname) : that.lastname != null) return false;
+    if (address != null ? !address.equals(that.address) : that.address != null) return false;
+    if (homePhone != null ? !homePhone.equals(that.homePhone) : that.homePhone != null) return false;
+    if (mobilePhone != null ? !mobilePhone.equals(that.mobilePhone) : that.mobilePhone != null) return false;
+    if (workPhone != null ? !workPhone.equals(that.workPhone) : that.workPhone != null) return false;
+    if (email != null ? !email.equals(that.email) : that.email != null) return false;
+    if (email2 != null ? !email2.equals(that.email2) : that.email2 != null) return false;
+    return email3 != null ? email3.equals(that.email3) : that.email3 == null;
+  }
+
+  @Override
+  public int hashCode() {
+    int result = id;
+    result = 31 * result + (firstname != null ? firstname.hashCode() : 0);
+    result = 31 * result + (lastname != null ? lastname.hashCode() : 0);
+    result = 31 * result + (address != null ? address.hashCode() : 0);
+    result = 31 * result + (homePhone != null ? homePhone.hashCode() : 0);
+    result = 31 * result + (mobilePhone != null ? mobilePhone.hashCode() : 0);
+    result = 31 * result + (workPhone != null ? workPhone.hashCode() : 0);
+    result = 31 * result + (email != null ? email.hashCode() : 0);
+    result = 31 * result + (email2 != null ? email2.hashCode() : 0);
+    result = 31 * result + (email3 != null ? email3.hashCode() : 0);
+    return result;
+  }
+
+  public ContactData inGroup(GroupData group) {
+    if(groups == null){
+      groups = new HashSet<GroupData>();
+    }
+    groups.add(group);
     return this;
   }
 }

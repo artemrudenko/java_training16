@@ -6,6 +6,8 @@ package by.stqa.pft.addressbook.tests;
 
 import by.stqa.pft.addressbook.model.ContactData;
 import by.stqa.pft.addressbook.model.Contacts;
+import by.stqa.pft.addressbook.model.GroupData;
+import by.stqa.pft.addressbook.model.Groups;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.thoughtworks.xstream.XStream;
@@ -68,12 +70,21 @@ public class ContactCreationTests extends TestBase {
 
   @Test(dataProvider = "validContactsFromXml")
   public void testContactCreationFromXml(ContactData data) {
+    Groups groups = app.db().groups();
+    if(groups.size() == 0){
+      app.goTo().groupPage();
+      app.group().create(new GroupData().withName("MyGroup1"));
+      groups = app.db().groups();
+    }
+
     Contacts before = app.db().contacts();
+    data.inGroup(groups.iterator().next());
     app.contact().create(data);
     assertThat(app.contact().count(), equalTo(before.size() + 1));
     Contacts after = app.db().contacts();
     assertThat(after, equalTo(
             before.withAdded(data.withId(after.stream().mapToInt((g) -> g.getId()).max().getAsInt()))));
+    verifyContactListInUI();
   }
 
   @Test(dataProvider = "validContactsFromJson")
@@ -84,18 +95,21 @@ public class ContactCreationTests extends TestBase {
     Contacts after = app.db().contacts();
     assertThat(after, equalTo(
             before.withAdded(data.withId(after.stream().mapToInt((g) -> g.getId()).max().getAsInt()))));
+    verifyContactListInUI();
   }
 
   @Test
   public void testContactWPhoto(){
+    Groups groups = app.db().groups();
     Contacts before = app.db().contacts();
     File photo = new File("src/test/resources/face.png");
-    ContactData data = app.contact().generate().withPhoto(photo);
+    ContactData data = app.contact().generate().withPhoto(photo).inGroup(groups.iterator().next());
     app.contact().create(data);
     assertThat(app.contact().count(), equalTo(before.size() + 1));
     Contacts after = app.db().contacts();
     assertThat(after, equalTo(
             before.withAdded(data.withId(after.stream().mapToInt((g) -> g.getId()).max().getAsInt()))));
+    verifyContactListInUI();
   }
 
 }
