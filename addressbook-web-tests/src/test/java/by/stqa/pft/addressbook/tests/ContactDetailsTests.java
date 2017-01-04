@@ -51,7 +51,7 @@ public class ContactDetailsTests extends TestBase {
             (!workPhone.equals("")) ? "W: " + workPhone : "",
             "\n",
             contact.getEmail(), contact.getEmail2(), contact.getEmail3(),
-            (!contact.getHomepage().equals("")) ? "Homepage: " + contact.getHomepage() : "")
+            (!contact.getHomepage().equals("")) ? "Homepage:\n" + contact.getHomepage() : "")
             .filter((s) -> !s.equals(""))
             .map((s)-> (s.equals("\n")) ? s.replace("\n", ""): s)
             .collect(joining("\n"));

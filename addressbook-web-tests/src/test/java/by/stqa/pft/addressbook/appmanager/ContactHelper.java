@@ -67,14 +67,19 @@ public class ContactHelper extends HelperBase{
     String fullAddress = address.getCity() + "\r\n" + address.getPostalCode() + "\r\n" + address.getAddressLine1();
     return new ContactData()
             .withFirstname(person.getFirstName())
+            .withMiddlename(person.getMiddleName())
             .withLastname(person.getLastName())
+            .withNickname(person.getFullName())
+            .withTitle((person.getSex() == Person.Sex.MALE) ? "Mr." : "Ms.")
+            .withCompany(person.getCompany().getName())
             .withAddress(fullAddress)
             .withHomePhone(person.getTelephoneNumber())
             .withWorkPhone(fairy.person().getTelephoneNumber())
             .withMobilePhone(fairy.person().getTelephoneNumber())
             .withEmail(person.getEmail())
             .withEmail2(fairy.person().getEmail())
-            .withEmail3(fairy.person().getEmail());
+            .withEmail3(fairy.person().getEmail())
+            .withHomepage(person.getEmail());
   }
 
   public void fillForm(ContactData contactData, boolean creation) {

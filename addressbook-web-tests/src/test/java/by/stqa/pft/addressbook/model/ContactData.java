@@ -26,64 +26,156 @@ public class ContactData {
   @Expose
   @Column(name = "firstname")
   private String firstname;
-  @Transient
+
+  @Expose
+  @Column(name = "middlename")
   private String middlename;
+
   @Expose
   @Column(name = "lastname")
   private String lastname;
-  @Transient
+
+  @Expose
+  @Column(name = "nickname")
   private String nickname;
-  @Transient
+
+  @Expose
+  @Column(name = "title")
   private String title;
-  @Transient
+
+  @Expose
+  @Column(name = "company")
   private String company;
+
   @Expose
   @Column(name = "address")
   @Type(type = "text")
   private String address;
+
   @Expose
   @Column(name = "home")
   @Type(type = "text")
   private String homePhone;
+
   @Expose
   @Column(name = "mobile")
   @Type(type = "text")
   private String mobilePhone;
+
   @Expose
   @Column(name = "work")
   @Type(type = "text")
   private String workPhone;
+
   @Transient
   private String fax;
+
   @Expose
   @Column(name = "email")
   @Type(type = "text")
   private String email;
+
   @Expose
   @Column(name = "email2")
   @Type(type = "text")
   private String email2;
+
   @Expose
   @Column(name = "email3")
   @Type(type = "text")
   private String email3;
+
+  @Expose
   @Column(name = "homepage")
   @Type(type = "text")
   private String homepage;
+
   @Transient
   private String birthday;
+
   @Transient
   private String anniversary;
+
   @Transient
   private String address2;
+
   @Transient
   private String phone2;
+
   @Transient
   private String notes;
+
   @Transient
   private String allPhones;
+
   @Transient
   private String allEmails;
+
+  @Override
+  public String toString() {
+    return "ContactData{" +
+            "id=" + id +
+            ", firstname='" + firstname + '\'' +
+            ", middlename='" + middlename + '\'' +
+            ", lastname='" + lastname + '\'' +
+            ", nickname='" + nickname + '\'' +
+            ", title='" + title + '\'' +
+            ", company='" + company + '\'' +
+            ", address='" + address + '\'' +
+            ", homePhone='" + homePhone + '\'' +
+            ", mobilePhone='" + mobilePhone + '\'' +
+            ", workPhone='" + workPhone + '\'' +
+            ", email='" + email + '\'' +
+            ", email2='" + email2 + '\'' +
+            ", email3='" + email3 + '\'' +
+            ", homepage='" + homepage + '\'' +
+            '}';
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+
+    ContactData that = (ContactData) o;
+
+    if (id != that.id) return false;
+    if (firstname != null ? !firstname.equals(that.firstname) : that.firstname != null) return false;
+    if (middlename != null ? !middlename.equals(that.middlename) : that.middlename != null) return false;
+    if (lastname != null ? !lastname.equals(that.lastname) : that.lastname != null) return false;
+    if (nickname != null ? !nickname.equals(that.nickname) : that.nickname != null) return false;
+    if (title != null ? !title.equals(that.title) : that.title != null) return false;
+    if (company != null ? !company.equals(that.company) : that.company != null) return false;
+    if (address != null ? !address.equals(that.address) : that.address != null) return false;
+    if (homePhone != null ? !homePhone.equals(that.homePhone) : that.homePhone != null) return false;
+    if (mobilePhone != null ? !mobilePhone.equals(that.mobilePhone) : that.mobilePhone != null) return false;
+    if (workPhone != null ? !workPhone.equals(that.workPhone) : that.workPhone != null) return false;
+    if (email != null ? !email.equals(that.email) : that.email != null) return false;
+    if (email2 != null ? !email2.equals(that.email2) : that.email2 != null) return false;
+    if (email3 != null ? !email3.equals(that.email3) : that.email3 != null) return false;
+    boolean res = homepage != null ? homepage.equals(that.homepage) : that.homepage == null;
+    return res;
+  }
+
+  @Override
+  public int hashCode() {
+    int result = id;
+    result = 31 * result + (firstname != null ? firstname.hashCode() : 0);
+    result = 31 * result + (middlename != null ? middlename.hashCode() : 0);
+    result = 31 * result + (lastname != null ? lastname.hashCode() : 0);
+    result = 31 * result + (nickname != null ? nickname.hashCode() : 0);
+    result = 31 * result + (title != null ? title.hashCode() : 0);
+    result = 31 * result + (company != null ? company.hashCode() : 0);
+    result = 31 * result + (address != null ? address.hashCode() : 0);
+    result = 31 * result + (homePhone != null ? homePhone.hashCode() : 0);
+    result = 31 * result + (mobilePhone != null ? mobilePhone.hashCode() : 0);
+    result = 31 * result + (workPhone != null ? workPhone.hashCode() : 0);
+    result = 31 * result + (email != null ? email.hashCode() : 0);
+    result = 31 * result + (email2 != null ? email2.hashCode() : 0);
+    result = 31 * result + (email3 != null ? email3.hashCode() : 0);
+    result = 31 * result + (homepage != null ? homepage.hashCode() : 0);
+    return result;
+  }
 
   @Column(name = "photo")
   @Type(type = "text")
@@ -309,23 +401,6 @@ public class ContactData {
     return allEmails;
   }
 
-  @Override
-  public String toString() {
-    return "ContactData{" +
-            "id=" + id +
-            ", firstname='" + firstname + '\'' +
-            ", lastname='" + lastname + '\'' +
-            ", address='" + address + '\'' +
-            ", homePhone='" + homePhone + '\'' +
-            ", mobilePhone='" + mobilePhone + '\'' +
-            ", workPhone='" + workPhone + '\'' +
-            ", email='" + email + '\'' +
-            ", email2='" + email2 + '\'' +
-            ", email3='" + email3 + '\'' +
-            ", groups=" + groups +
-            '}';
-  }
-
   public ContactData withAllPhones(String allPhones) {
     this.allPhones = allPhones;
     return this;
@@ -334,40 +409,6 @@ public class ContactData {
   public ContactData withAllEmails(String allEmails) {
     this.allEmails = allEmails;
     return this;
-  }
-
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
-
-    ContactData that = (ContactData) o;
-
-    if (id != that.id) return false;
-    if (firstname != null ? !firstname.equals(that.firstname) : that.firstname != null) return false;
-    if (lastname != null ? !lastname.equals(that.lastname) : that.lastname != null) return false;
-    if (address != null ? !address.equals(that.address) : that.address != null) return false;
-    if (homePhone != null ? !homePhone.equals(that.homePhone) : that.homePhone != null) return false;
-    if (mobilePhone != null ? !mobilePhone.equals(that.mobilePhone) : that.mobilePhone != null) return false;
-    if (workPhone != null ? !workPhone.equals(that.workPhone) : that.workPhone != null) return false;
-    if (email != null ? !email.equals(that.email) : that.email != null) return false;
-    if (email2 != null ? !email2.equals(that.email2) : that.email2 != null) return false;
-    return email3 != null ? email3.equals(that.email3) : that.email3 == null;
-  }
-
-  @Override
-  public int hashCode() {
-    int result = id;
-    result = 31 * result + (firstname != null ? firstname.hashCode() : 0);
-    result = 31 * result + (lastname != null ? lastname.hashCode() : 0);
-    result = 31 * result + (address != null ? address.hashCode() : 0);
-    result = 31 * result + (homePhone != null ? homePhone.hashCode() : 0);
-    result = 31 * result + (mobilePhone != null ? mobilePhone.hashCode() : 0);
-    result = 31 * result + (workPhone != null ? workPhone.hashCode() : 0);
-    result = 31 * result + (email != null ? email.hashCode() : 0);
-    result = 31 * result + (email2 != null ? email2.hashCode() : 0);
-    result = 31 * result + (email3 != null ? email3.hashCode() : 0);
-    return result;
   }
 
   public ContactData inGroup(GroupData group) {

@@ -1,41 +1,59 @@
 <list>
   <contact>
-    <firstname>Alexandra</firstname>
-    <lastname>Beasley</lastname>
-    <address>Washington
-13180
-152 Tabor Court</address>
-    <homePhone>417-389-4128</homePhone>
-    <mobilePhone>587-199-4332</mobilePhone>
-    <workPhone>932-188-920</workPhone>
-    <email>alexandra.beasley@gmail.com</email>
-    <email2>khloewilliamson@mail.com</email2>
-    <email3>chase.whitney@gmail.com</email3>
+    <firstname>Bella</firstname>
+    <middlename>Ava</middlename>
+    <lastname>Gregory</lastname>
+    <nickname>Bella Gregory</nickname>
+    <title>Ms.</title>
+    <company>FlyHigh Industries</company>
+    <address>New York
+11143
+180 Cove Lane</address>
+    <homePhone>402-466-6263</homePhone>
+    <mobilePhone>133-313-2685</mobilePhone>
+    <workPhone>490-605-846</workPhone>
+    <email>bellagregory@gmail.com</email>
+    <email2>nataliefarrell@mail.com</email2>
+    <email3>giannagibson@mail.com</email3>
+    <homepage>bellagregory@gmail.com</homepage>
+    <groups/>
   </contact>
   <contact>
-    <firstname>Bailey</firstname>
-    <lastname>Warren</lastname>
+    <firstname>Matthew</firstname>
+    <middlename>Alexander</middlename>
+    <lastname>Snow</lastname>
+    <nickname>Matthew Snow</nickname>
+    <title>Mr.</title>
+    <company>Furba Inc.</company>
     <address>San Francisco
-93384
-47 Herzi Street</address>
-    <homePhone>377-565-1312</homePhone>
-    <mobilePhone>327-801-5035</mobilePhone>
-    <workPhone>254-954-4782</workPhone>
-    <email>baileywarren@gmail.com</email>
-    <email2>morgan.beasley@mail.com</email2>
-    <email3>michaelmcmillan@yahoo.com</email3>
+74758
+114 Summer Place APT 114</address>
+    <homePhone>454-204-5365</homePhone>
+    <mobilePhone>887-996-642</mobilePhone>
+    <workPhone>913-048-819</workPhone>
+    <email>matthew.snow@yahoo.com</email>
+    <email2>damian.lawrence@gmail.com</email2>
+    <email3>london.joyner@gmail.com</email3>
+    <homepage>matthew.snow@yahoo.com</homepage>
+    <groups/>
   </contact>
   <contact>
-    <firstname>Autumn</firstname>
-    <lastname>York</lastname>
+    <firstname>Makayla</firstname>
+    <middlename></middlename>
+    <lastname>Hutchinson</lastname>
+    <nickname>Makayla Hutchinson</nickname>
+    <title>Ms.</title>
+    <company>Furba</company>
     <address>Washington
-68091
-131 Herzi Street APT 86</address>
-    <homePhone>686-138-2380</homePhone>
-    <mobilePhone>935-942-8367</mobilePhone>
-    <workPhone>074-665-531</workPhone>
-    <email>york@gmail.com</email>
-    <email2>dominicarnold@mail.com</email2>
-    <email3>noahvega@gmail.com</email3>
+51664
+108 Summer Place APT 34</address>
+    <homePhone>354-362-8110</homePhone>
+    <mobilePhone>426-913-331</mobilePhone>
+    <workPhone>370-356-3173</workPhone>
+    <email>makaylahutchinson@yahoo.com</email>
+    <email2>best@mail.com</email2>
+    <email3>zoereid@gmail.com</email3>
+    <homepage>makaylahutchinson@yahoo.com</homepage>
+    <groups/>
   </contact>
 </list>

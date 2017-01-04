@@ -89,7 +89,16 @@ public class ContactCreationTests extends TestBase {
 
   @Test(dataProvider = "validContactsFromJson")
   public void testContactCreation(ContactData data) {
+    Groups groups = app.db().groups();
+    if(groups.size() == 0){
+      app.goTo().groupPage();
+      app.group().create(new GroupData().withName("MyGroup1"));
+      groups = app.db().groups();
+    }
+
     Contacts before = app.db().contacts();
+    data.inGroup(groups.iterator().next());
+
     app.contact().create(data);
     assertThat(app.contact().count(), equalTo(before.size() + 1));
     Contacts after = app.db().contacts();
