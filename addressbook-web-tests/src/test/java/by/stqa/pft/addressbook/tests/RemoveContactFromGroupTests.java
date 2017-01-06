@@ -47,5 +47,6 @@ public class RemoveContactFromGroupTests extends TestBase {
     app.contact().removeContactFromGroup(contact, group);
     Contacts after = app.db().contacts();
     assertThat(after, equalTo(before.withModified(contact.withGroups(groupsBefore.without(group)))));
+    verifyGroupContactsListUI(group, contact, false);
   }
 }

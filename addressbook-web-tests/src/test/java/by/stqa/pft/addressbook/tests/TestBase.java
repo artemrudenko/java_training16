@@ -24,8 +24,9 @@ import java.util.Arrays;
 import java.util.stream.Collectors;
 
 import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.hasItem;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.hasItems;
+import static org.hamcrest.Matchers.not;
 
 
 public class TestBase {
@@ -47,17 +48,17 @@ public class TestBase {
   }
 
   @BeforeMethod
-  public void logTestStart(Method m, Object[] p){
+  public void logTestStart(Method m, Object[] p) {
     logger.info("Start test " + m.getName() + " with parameters " + Arrays.asList(p));
   }
 
   @AfterMethod(alwaysRun = true)
-  public void logTestStop(Method m){
+  public void logTestStop(Method m) {
     logger.info("Stop test " + m.getName());
   }
 
   public void verifyGroupListInUI() {
-    if(Boolean.getBoolean("verifyUI")) {
+    if (Boolean.getBoolean("verifyUI")) {
       Groups dbGroups = app.db().groups();
       Groups uiGroups = app.group().all();
       assertThat(uiGroups, equalTo(dbGroups.stream()
@@ -67,17 +68,51 @@ public class TestBase {
   }
 
   public void verifyContactListInUI() {
-    if(Boolean.getBoolean("verifyUI")) {
+    if (Boolean.getBoolean("verifyUI")) {
       Contacts dbContacts = app.db().contacts();
       Contacts uiContacts = app.contact().all();
       assertThat(uiContacts, equalTo(dbContacts.stream()
               .map((c) -> new ContactData().withId(c.getId())
                       .withFirstname(c.getFirstname())
                       .withLastname(c.getLastname())
-                      .withAddress(c.getAddress())
+                      .withAddress(c.getAddress().replaceAll("\r\n", "\n"))
                       .withAllPhones(c.getAllPhones())
                       .withAllEmails(c.getAllEmails()))
               .collect(Collectors.toSet())));
+    }
+  }
+
+  public void verifyContactInGroupContactsListUI(GroupData group, ContactData contact) {
+    if(Boolean.getBoolean("verifyUI")) {
+      app.contact().loadGroupContacts(group);
+      Contacts uiContacts = app.contact().all();
+      assertThat(uiContacts, hasItem(new ContactData().withId(contact.getId())
+              .withFirstname(contact.getFirstname())
+              .withLastname(contact.getLastname())
+              .withAddress(contact.getAddress().replaceAll("\r\n", "\n"))
+              .withAllPhones(contact.getAllPhones())
+              .withAllEmails(contact.getAllEmails())));
+    }
+  }
+
+  public void verifyContactNotInGroupContactsListUI(GroupData group, ContactData contact) {
+    if(Boolean.getBoolean("verifyUI")) {
+      app.contact().loadGroupContacts(group);
+      Contacts uiContacts = app.contact().all();
+      assertThat(uiContacts, not(hasItem(new ContactData().withId(contact.getId())
+              .withFirstname(contact.getFirstname())
+              .withLastname(contact.getLastname())
+              .withAddress(contact.getAddress().replaceAll("\r\n", "\n"))
+              .withAllPhones(contact.getAllPhones())
+              .withAllEmails(contact.getAllEmails()))));
+    }
+  }
+
+  public void verifyGroupContactsListUI(GroupData group, ContactData contact, boolean contains){
+    if(contains){
+      verifyContactInGroupContactsListUI(group, contact);
+    }else {
+      verifyContactNotInGroupContactsListUI(group, contact);
     }
   }
 
