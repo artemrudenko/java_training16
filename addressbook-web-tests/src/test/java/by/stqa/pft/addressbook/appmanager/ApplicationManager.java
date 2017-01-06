@@ -49,6 +49,7 @@ public class ApplicationManager {
         wd = new FirefoxDriver(bin, new FirefoxProfile(), caps);
         break;
       case BrowserType.CHROME:
+        System.setProperty("webdriver.chrome.driver", "d:\\EDUCATION\\SELENIUM\\TOOLS\\chromedriver.exe");
         wd = new ChromeDriver(caps);
         break;
       case BrowserType.IE:

@@ -11,6 +11,8 @@
             <class name="by.stqa.pft.addressbook.tests.ContactPhoneTests" />
             <class name="by.stqa.pft.addressbook.tests.ContactHomePageFieldsTests" />
             <class name="by.stqa.pft.addressbook.tests.ContactDetailsTests" />
+            <class name="by.stqa.pft.addressbook.tests.AddContactToGroupTests" />
+            <class name="by.stqa.pft.addressbook.tests.RemoveContactFromGroupTests" />
         </classes>
     </test>
 </suite>

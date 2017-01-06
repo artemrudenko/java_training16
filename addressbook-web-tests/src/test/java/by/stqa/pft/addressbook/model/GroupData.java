@@ -35,7 +35,7 @@ public class GroupData {
   @Type(type="text")
   private String header;
 
-  @ManyToMany(mappedBy = "groups")
+  @ManyToMany(mappedBy = "groups", fetch = FetchType.EAGER)
   private Set<ContactData> contacts = new HashSet<ContactData>();
 
   @Override

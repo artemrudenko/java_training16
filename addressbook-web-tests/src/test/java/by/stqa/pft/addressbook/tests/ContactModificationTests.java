@@ -20,14 +20,14 @@ public class ContactModificationTests extends TestBase {
       app.goTo().homePage();
       app.contact().create(app.contact().generate());
     }
+    app.goTo().homePage();
   }
 
   @Test
   public void testContactModification() {
-    app.goTo().homePage();
     Contacts before = app.db().contacts();
     ContactData toUpdate = before.iterator().next();
-    ContactData data = app.contact().generate().withId(toUpdate.getId());
+    ContactData data = app.contact().generate().withId(toUpdate.getId()).withGroups(toUpdate.getGroups());
     app.contact().update(data);
     assertThat(app.contact().count(), equalTo(before.size()));
     Contacts after = app.db().contacts();

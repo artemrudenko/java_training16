@@ -102,5 +102,4 @@ public class GroupHelper extends HelperBase{
     groupCache = null;
     returnToGroupPage();
   }
-
 }

@@ -19,11 +19,11 @@ public class ContactDeletionTest extends TestBase{
       app.goTo().homePage();
       app.contact().create(app.contact().generate());
     }
+    app.goTo().homePage();
   }
 
   @Test
   public void testNotConfirmContactDeletion(){
-    app.goTo().homePage();
     Contacts before = app.db().contacts();
     ContactData toRemove = before.iterator().next();
     app.contact().delete(toRemove, false);
@@ -35,7 +35,6 @@ public class ContactDeletionTest extends TestBase{
 
   @Test
   public void testConfirmSingleContactDeletion(){
-    app.goTo().homePage();
     Contacts before = app.db().contacts();
     ContactData toRemove = before.iterator().next();
     app.contact().delete(toRemove, true);

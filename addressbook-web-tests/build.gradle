@@ -31,7 +31,9 @@ task testGroups(type: Test){
     if(project.hasProperty('verifyUI')){
         systemProperty 'verifyUI', "${verifyUI}"
     }
-
+    doLast {
+        println('testGroups completed.')
+    }
 }
 
 task testContacts(type: Test){
@@ -48,5 +50,15 @@ task testContacts(type: Test){
     if(project.hasProperty('verifyUI')){
         systemProperty 'verifyUI', "${verifyUI}"
     }
-
+    doLast {
+        println('testContacts completed.')
+    }
 }
+
+task testAll(dependsOn:[clean, testGroups, testContacts]){
+    doLast {
+        println('testAll completed.')
+    }
+}
+//testGroups.mustRunAfter clean
+//testContacts.mustRunAfter testGroups

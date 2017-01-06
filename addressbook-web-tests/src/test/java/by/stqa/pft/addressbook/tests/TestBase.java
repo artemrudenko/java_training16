@@ -25,6 +25,7 @@ import java.util.stream.Collectors;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.hasItems;
 
 
 public class TestBase {
@@ -41,6 +42,7 @@ public class TestBase {
 
   @AfterSuite(alwaysRun = true)
   protected void tearDown() {
+    System.out.println("ALL IS OK!");
     app.stop();
   }
 

@@ -31,12 +31,15 @@ import static org.hamcrest.MatcherAssert.*;
 public class ContactCreationTests extends TestBase {
   @BeforeMethod
   public void ensurePreconditions() {
+    if(app.db().groups().size() == 0){
+      app.goTo().groupPage();
+      app.group().create(new GroupData().withName("MyGroup"));
+    }
     app.goTo().homePage();
   }
 
   @DataProvider
   public Iterator<Object[]> validContactsFromXml() throws IOException {
-    List<Object[]> list = new ArrayList<Object[]>();
     try(BufferedReader reader = new BufferedReader(new FileReader(new File("src/test/resources/contacts.xml")))) {
       String xml = "";
       String line = reader.readLine();
@@ -53,7 +56,6 @@ public class ContactCreationTests extends TestBase {
 
   @DataProvider
   public Iterator<Object[]> validContactsFromJson() throws IOException {
-    List<Object[]> list = new ArrayList<Object[]>();
     try(BufferedReader reader = new BufferedReader(new FileReader(new File("src/test/resources/contacts.json")))) {
       String json = "";
       String line = reader.readLine();
@@ -71,12 +73,6 @@ public class ContactCreationTests extends TestBase {
   @Test(dataProvider = "validContactsFromXml")
   public void testContactCreationFromXml(ContactData data) {
     Groups groups = app.db().groups();
-    if(groups.size() == 0){
-      app.goTo().groupPage();
-      app.group().create(new GroupData().withName("MyGroup1"));
-      groups = app.db().groups();
-    }
-
     Contacts before = app.db().contacts();
     data.inGroup(groups.iterator().next());
     app.contact().create(data);
@@ -90,12 +86,6 @@ public class ContactCreationTests extends TestBase {
   @Test(dataProvider = "validContactsFromJson")
   public void testContactCreation(ContactData data) {
     Groups groups = app.db().groups();
-    if(groups.size() == 0){
-      app.goTo().groupPage();
-      app.group().create(new GroupData().withName("MyGroup1"));
-      groups = app.db().groups();
-    }
-
     Contacts before = app.db().contacts();
     data.inGroup(groups.iterator().next());
 
@@ -112,7 +102,9 @@ public class ContactCreationTests extends TestBase {
     Groups groups = app.db().groups();
     Contacts before = app.db().contacts();
     File photo = new File("src/test/resources/face.png");
-    ContactData data = app.contact().generate().withPhoto(photo).inGroup(groups.iterator().next());
+    ContactData data = app.contact().generate()
+            .withPhoto(photo)
+            .inGroup(groups.iterator().next());
     app.contact().create(data);
     assertThat(app.contact().count(), equalTo(before.size() + 1));
     Contacts after = app.db().contacts();

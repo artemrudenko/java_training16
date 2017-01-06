@@ -2,6 +2,9 @@ package by.stqa.pft.addressbook.appmanager;
 
 import by.stqa.pft.addressbook.model.ContactData;
 import by.stqa.pft.addressbook.model.Contacts;
+import by.stqa.pft.addressbook.model.GroupData;
+import by.stqa.pft.addressbook.model.Groups;
+import com.google.common.base.Function;
 import io.codearte.jfairy.Fairy;
 import io.codearte.jfairy.producer.company.Company;
 import io.codearte.jfairy.producer.person.Address;
@@ -9,16 +12,13 @@ import io.codearte.jfairy.producer.person.Person;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static io.codearte.jfairy.producer.person.PersonProperties.withCompany;
-import static java.util.stream.Collectors.*;
 
 /**
  * Created by artemr on 11/25/2016.
@@ -129,7 +129,7 @@ public class ContactHelper extends HelperBase{
   }
 
   public void selectById(int id){
-    wd.findElement(By.cssSelector("input[value='"+ id + "'")).click();
+    wd.findElement(By.cssSelector("input[value='" + id + "'")).click();
   }
 
   public void initCreation() {
@@ -224,6 +224,29 @@ public class ContactHelper extends HelperBase{
   public String infoFromDetailsForm(ContactData contact) {
     detailsById(contact.getId());
     return wd.findElement(By.id("content")).getText();
+  }
+
+  private void gotoGroupContactPage(){
+    wait.until(ExpectedConditions.elementToBeClickable(By.xpath(".//a[ancestor::div[@class='msgbox']]"))).click();
+    waitHomePageLoad();
+  }
+
+  public void addContactToGroup(ContactData contact, GroupData group){
+    selectById(contact.getId());
+    select(By.name("to_group"), group.getName());
+    wd.findElement(By.name("add")).click();
+    gotoGroupContactPage();
+  }
+
+  public void loadGroupContacts(GroupData group){
+    select(By.name("group"), group.getName());
+  }
+
+  public void removeContactFromGroup(ContactData contact, GroupData group){
+    loadGroupContacts(group);
+    selectById(contact.getId());
+    wait.until(ExpectedConditions.elementToBeClickable(By.name("remove"))).click();
+    gotoGroupContactPage();
   }
 
 }

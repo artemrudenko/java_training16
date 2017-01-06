@@ -36,7 +36,6 @@ public class GroupCreationTests extends TestBase {
 
   @DataProvider
   public Iterator<Object[]> validGroupsFromXml() throws IOException {
-    List<Object[]> list = new ArrayList<Object[]>();
     try(BufferedReader reader = new BufferedReader(new FileReader(new File("src/test/resources/groups.xml")))) {
       String xml = "";
       String line = reader.readLine();
@@ -53,7 +52,6 @@ public class GroupCreationTests extends TestBase {
 
   @DataProvider
   public Iterator<Object[]> validGroupsFromJson() throws IOException {
-    List<Object[]> list = new ArrayList<Object[]>();
     try(BufferedReader reader = new BufferedReader(new FileReader(new File("src/test/resources/groups.json")))) {
       String json = "";
       String line = reader.readLine();
@@ -82,7 +80,7 @@ public class GroupCreationTests extends TestBase {
   @Test
   public void testBadGroupCreation() {
     Groups before = app.db().groups();
-    GroupData group = new GroupData().withName("MyGroup1'");
+    GroupData group = new GroupData().withName("MyGroup'");
     app.group().create(group);
     assertThat(app.group().count(), equalTo(before.size()));
     Groups after = app.db().groups();
