@@ -19,6 +19,9 @@ dependencies{
 
 task testGroups(type: Test){
     useTestNG{
+        //set TestNG output dir
+//        outputDirectory = file("$project.buildDir//testngOutput")
+//        useDefaultListeners = true
         suites 'src/test/resources/testng-groups.xml'
     }
     if(project.hasProperty('browser')){
@@ -38,6 +41,7 @@ task testGroups(type: Test){
 
 task testContacts(type: Test){
     useTestNG{
+//        useDefaultListeners = true
         suites 'src/test/resources/testng-contacts.xml'
     }
     if(project.hasProperty('browser')){

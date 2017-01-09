@@ -39,6 +39,8 @@ public class TestBase {
   @BeforeSuite
   public void setUp() throws Exception {
     app.init();
+    app.goTo().groupPage();
+    app.group().deleteAll();
   }
 
   @AfterSuite(alwaysRun = true)

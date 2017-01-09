@@ -102,4 +102,11 @@ public class GroupHelper extends HelperBase{
     groupCache = null;
     returnToGroupPage();
   }
+
+  public void deleteAll(){
+    for(WebElement el: wd.findElements(By.name("selected[]"))){
+      el.click();
+    }
+    deleteSelected();
+  }
 }
