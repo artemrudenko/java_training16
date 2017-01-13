@@ -58,4 +58,11 @@ public class ApplicationManager {
     wd.quit();
   }
 
+  public HttpSession newSession(){
+    return new HttpSession(this);
+  }
+
+  public String getProperty(String key) {
+    return properties.getProperty(key);
+  }
 }
