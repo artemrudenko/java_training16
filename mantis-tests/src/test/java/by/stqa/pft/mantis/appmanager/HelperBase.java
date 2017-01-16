@@ -72,29 +72,6 @@ public class HelperBase {
     }
   }
 
-  public String[] getTableRowsText(By tableLocator) {
-    WebElement table = wd.findElement(tableLocator);
-    List<WebElement> rows = table.findElements(By.name("entry"));
-    String[] out = new String[rows.size()];
-    for (int i = 0; i < rows.size(); i++) {
-      out[i] = rows.get(i).getText();
-//      ++i;
-    }
-    return out;
-  }
-
-  public void clickTableElement(By tableLocator, String text, By elementLocator) {
-    WebElement table = wd.findElement(tableLocator);
-    List<WebElement> rows = table.findElements(By.name("entry"));
-    for (WebElement row : rows) {
-      // think on better condition here
-      if (row.getText().contains(text)) {
-        row.findElement(elementLocator).click();
-        break;
-      }
-    }
-  }
-
   public boolean isElementPresent(By locator) {
     try {
       wd.findElement(locator);
