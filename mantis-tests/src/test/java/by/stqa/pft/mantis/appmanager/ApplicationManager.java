@@ -32,6 +32,7 @@ public class ApplicationManager {
   private NavigationHelper goTo;
   private UserHelper users;
   private SessionHelper session;
+  private JamesHelper jamesHelper;
 
   public ApplicationManager(String browser) {
     this.browser = browser;
@@ -126,5 +127,10 @@ public class ApplicationManager {
     }
     return wd;
   }
-
+  public JamesHelper james(){
+    if(jamesHelper == null){
+      jamesHelper = new JamesHelper(this);
+    }
+    return jamesHelper;
+  }
 }
