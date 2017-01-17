@@ -24,12 +24,12 @@ public class RegistrationTests extends TestBase {
   public void testRegistration() throws IOException, MessagingException {
     long now = System.currentTimeMillis();
     String user =  String.format("user%s", now);
-    String email = String.format("%s@localhost.localdomain", user);
+    String email = String.format("%s@localhost", user);
     String password = "password";
     app.james().createUser(user, password);
     app.registration().start(user, email);
 //    List<MailMessage> mailMessages = app.mail().waitForMail(2, 10000);
-    List<MailMessage> mailMessages = app.james().waitForMail(user, password, 30000);
+    List<MailMessage> mailMessages = app.james().waitForMail(user, password, 60000);
     String confirmationLink = findConfirmationLink(mailMessages, email);
     app.registration().finish(confirmationLink, password);
     assertTrue(app.newSession().login(user, password));
