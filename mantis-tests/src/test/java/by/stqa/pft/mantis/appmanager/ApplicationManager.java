@@ -33,6 +33,7 @@ public class ApplicationManager {
   private UserHelper users;
   private SessionHelper session;
   private JamesHelper jamesHelper;
+  private SoapHelper soapHelper;
 
   public ApplicationManager(String browser) {
     this.browser = browser;
@@ -103,6 +104,13 @@ public class ApplicationManager {
       session = new SessionHelper(this);
     }
     return session;
+  }
+
+  public SoapHelper soap(){
+    if(soapHelper == null){
+      soapHelper = new SoapHelper(this);
+    }
+    return soapHelper;
   }
 
   public WebDriver getDriver() {
