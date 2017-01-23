@@ -1,5 +1,6 @@
-package by.stqa.pft.rest;
+package by.stqa.pft.rest.tests;
 
+import by.stqa.pft.rest.model.Issue;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 

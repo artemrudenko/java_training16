@@ -1,4 +1,4 @@
-package by.stqa.pft.rest;
+package by.stqa.pft.rest.model;
 
 /**
  * Created by artemr on 1/23/2017.
@@ -7,9 +7,22 @@ public class Issue {
   private int id;
   private String subject;
   private String description;
+  private String state_name;
 
   public int getId() {
     return id;
+  }
+
+  public String getSubject() {
+    return subject;
+  }
+
+  public String getDescription() {
+    return description;
+  }
+
+  public String getStateName() {
+    return state_name;
   }
 
   public Issue withId(int id) {
@@ -17,8 +30,19 @@ public class Issue {
     return this;
   }
 
-  public String getSubject() {
-    return subject;
+  public Issue withSubject(String subject) {
+    this.subject = subject;
+    return this;
+  }
+
+  public Issue withDescription(String description) {
+    this.description = description;
+    return this;
+  }
+
+  public Issue withStateName(String state_name) {
+    this.state_name = state_name;
+    return this;
   }
 
   @Override
@@ -39,20 +63,5 @@ public class Issue {
     result = 31 * result + (subject != null ? subject.hashCode() : 0);
     result = 31 * result + (description != null ? description.hashCode() : 0);
     return result;
-  }
-
-  public Issue withSubject(String subject) {
-    this.subject = subject;
-
-    return this;
-  }
-
-  public String getDescription() {
-    return description;
-  }
-
-  public Issue withDescription(String description) {
-    this.description = description;
-    return this;
   }
 }
