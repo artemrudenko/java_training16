@@ -1,0 +1,9 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+
+<suite name="RestSuite" verbose="1" >
+    <test name="REST">
+        <classes>
+            <class name="by.stqa.pft.rest.tests.BugifyIssueStatusTests" />
+        </classes>
+    </test>
+</suite>

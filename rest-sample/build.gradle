@@ -11,3 +11,15 @@ dependencies{
     compile 'org.apache.httpcomponents:fluent-hc:4.5.2'
     compile 'com.jayway.restassured:rest-assured:2.9.0'
 }
+
+test {
+    useTestNG{
+        suites 'src/test/resources/testng.xml'
+    }
+    if (project.hasProperty('target')) {
+        systemProperty 'target', "${target}"
+    }
+    doLast {
+        println('tests completed')
+    }
+}
