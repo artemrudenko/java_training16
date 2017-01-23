@@ -4,9 +4,6 @@
 
 package by.stqa.pft.mantis.tests;
 
-import biz.futureware.mantis.rpc.soap.client.IssueData;
-import biz.futureware.mantis.rpc.soap.client.MantisConnectLocator;
-import biz.futureware.mantis.rpc.soap.client.MantisConnectPortType;
 import by.stqa.pft.mantis.appmanager.ApplicationManager;
 import by.stqa.pft.mantis.model.MailMessage;
 import org.openqa.selenium.remote.BrowserType;
@@ -18,9 +15,7 @@ import ru.lanwen.verbalregex.VerbalExpression;
 import javax.xml.rpc.ServiceException;
 import java.io.File;
 import java.io.IOException;
-import java.math.BigInteger;
 import java.net.MalformedURLException;
-import java.net.URL;
 import java.rmi.RemoteException;
 import java.util.List;
 
