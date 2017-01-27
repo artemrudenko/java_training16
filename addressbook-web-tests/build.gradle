@@ -4,6 +4,10 @@ repositories{
     mavenCentral()
 }
 
+configurations {
+    agent
+}
+
 dependencies{
     compile 'org.testng:testng:6.10'
     compile 'org.seleniumhq.selenium:selenium-java:2.53.1'
@@ -15,6 +19,8 @@ dependencies{
     compile 'ch.qos.logback:logback-classic:1.1.8'
     compile 'mysql:mysql-connector-java:6.0.5'
     compile 'org.hibernate:hibernate-core:5.2.5.Final'
+    agent "org.aspectj:aspectjweaver:1.8.0"
+    compile "ru.yandex.qatools.allure:allure-testng-adaptor:1.4.0.RC4"
 }
 
 task testGroups(type: Test){
@@ -23,6 +29,9 @@ task testGroups(type: Test){
 //        outputDirectory = file("$project.buildDir//testngOutput")
 //        useDefaultListeners = true
         suites 'src/test/resources/testng-groups.xml'
+    }
+    doFirst {
+        jvmArgs "-javaagent:${configurations.agent.singleFile}"
     }
     if(project.hasProperty('browser')){
         systemProperty 'browser', "${browser}"
@@ -41,10 +50,14 @@ task testGroups(type: Test){
     }
 }
 
+
 task testContacts(type: Test){
     useTestNG{
 //        useDefaultListeners = true
         suites 'src/test/resources/testng-contacts.xml'
+    }
+    doFirst {
+        jvmArgs "-javaagent:${configurations.agent.singleFile}"
     }
     if(project.hasProperty('browser')){
         systemProperty 'browser', "${browser}"
@@ -68,5 +81,6 @@ task testAll(dependsOn:[clean, testGroups, testContacts]){
         println('testAll completed.')
     }
 }
+
 //testGroups.mustRunAfter clean
 //testContacts.mustRunAfter testGroups
