@@ -22,6 +22,8 @@ dependencies{
     agent "org.aspectj:aspectjweaver:1.8.0"
     compile "ru.yandex.qatools.allure:allure-testng-adaptor:1.4.0.RC4"
     compile 'org.robotframework:robotframework:3.0.1'
+    compile 'info.cukes:cucumber-java:1.2.5'
+    compile 'info.cukes:cucumber-testng:1.2.5'
 }
 
 task testGroups(type: Test){
@@ -91,4 +93,22 @@ task rf(type: JavaExec){
     classpath = sourceSets.test.runtimeClasspath
     args '--outputdir', 'build/rf-report'
     args 'src/test/resources/rf'
+}
+
+task testBdd(type: Test){
+    useTestNG{
+        suites 'src/test/resources/testng-bdd.xml'
+    }
+    if(project.hasProperty('browser')){
+        systemProperty 'browser', "${browser}"
+    }
+    if(project.hasProperty('platform')){
+        systemProperty 'platform', "${platform}"
+    }
+    if(project.hasProperty('target')){
+        systemProperty 'target', "${target}"
+    }
+    if(project.hasProperty('verifyUI')){
+        systemProperty 'verifyUI', "${verifyUI}"
+    }
 }
